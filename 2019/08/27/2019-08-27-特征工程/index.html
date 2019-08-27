@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="基础算法,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="特征工程指的是可以使用手动或者自动的方法，应用领域知识和现有数据，创造出新的特征，用于机器学习算法。 探索性数据分析主要任务是制图，发掘数据间的关系。 预处理将训练集表示为矩阵X(n_samples * n_features)，标签转化成矩阵Y(n_samples * n_class)  定义区间  平滑  数据变换：属性构造（计算得出新属性）；规范化；离散化；聚集（汇总数据）；等   处理已有特">
+<meta name="keywords" content="基础算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="特征工程">
+<meta property="og:url" content="http://yoursite.com/2019/08/27/2019-08-27-特征工程/index.html">
+<meta property="og:site_name" content="李子泠">
+<meta property="og:description" content="特征工程指的是可以使用手动或者自动的方法，应用领域知识和现有数据，创造出新的特征，用于机器学习算法。 探索性数据分析主要任务是制图，发掘数据间的关系。 预处理将训练集表示为矩阵X(n_samples * n_features)，标签转化成矩阵Y(n_samples * n_class)  定义区间  平滑  数据变换：属性构造（计算得出新属性）；规范化；离散化；聚集（汇总数据）；等   处理已有特">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-27T16:59:52.927Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="特征工程">
+<meta name="twitter:description" content="特征工程指的是可以使用手动或者自动的方法，应用领域知识和现有数据，创造出新的特征，用于机器学习算法。 探索性数据分析主要任务是制图，发掘数据间的关系。 预处理将训练集表示为矩阵X(n_samples * n_features)，标签转化成矩阵Y(n_samples * n_class)  定义区间  平滑  数据变换：属性构造（计算得出新属性）；规范化；离散化；聚集（汇总数据）；等   处理已有特">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/27/2019-08-27-特征工程/">
+
+
+
+
+
+  <title>特征工程 | 李子泠</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">李子泠</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/2019-08-27-特征工程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李子泠">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="李子泠">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">特征工程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T17:00:00+01:00">
+                2019-08-27 17:00:00
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-27T17:59:52+01:00">
+                2019-08-27 17:59:52
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>特征工程指的是可以使用手动或者自动的方法，应用领域知识和现有数据，创造出新的特征，用于机器学习算法。</p>
+<h3 id="探索性数据分析"><a href="#探索性数据分析" class="headerlink" title="探索性数据分析"></a>探索性数据分析</h3><p>主要任务是制图，发掘数据间的关系。</p>
+<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>将训练集表示为矩阵X(n_samples * n_features)，标签转化成矩阵Y(n_samples * n_class)</p>
+<ol>
+<li><p>定义区间</p>
+</li>
+<li><p>平滑</p>
+</li>
+<li><p>数据变换：属性构造（计算得出新属性）；规范化；离散化；聚集（汇总数据）；等</p>
+</li>
+</ol>
+<h3 id="处理已有特征"><a href="#处理已有特征" class="headerlink" title="处理已有特征"></a>处理已有特征</h3><ol>
+<li><p>类别特征</p>
+<p> 表示某个数据点属于某一个类别，或者具有某一种类的特征。可用OneHotEncoding将字符串转化成自然数，如果一列类别特征有K种不同类别，取值范围可以是{0,1,…,k-1</p>
+<p> 比如：颜色、性别、地址、国籍、地区等</p>
+<p> 除了OneHotEncoding，还可以使用平均数编码，当一个类别包含极多不同类别时，比如动辄上万的家庭地址，可以采用平均数编码。和独热编码相比，它节省内存，减少算法计算时间。</p>
+</li>
+<li><p>数值特征</p>
+<p> 可以是连续的，也可以是离散的，一般表示为一个实数值。</p>
+<p> 例如：年龄、价格、身高、体重等测量数据</p>
+<p> 不同算法对数值特征的处理要求不同：</p>
+<p> 2.1 标准化：转化为Z-score，使数值特征的算数平均为0，方差和标准差为1.</p>
+<p> 2.2 归一化： $ x = x / sum $</p>
+<p> 2.3 区间缩放：将一列的数值，除以这一列的最大绝对值</p>
+</li>
+<li><p>其他</p>
+<p> 时间特征，地理特征，用户特征（用户名等），可以采用：</p>
+<p> 比如时间特征，时间序列：把不同时间短的特征放在一起比较</p>
+</li>
+</ol>
+<h3 id="缺失值处理"><a href="#缺失值处理" class="headerlink" title="缺失值处理"></a>缺失值处理</h3><p>造成缺失值的原因有很多，比如信息暂时无法获取、信息被遗漏、获取信息的代价太大等。</p>
+<ol>
+<li><p>直接删除</p>
+<p> 将存在一楼信息属性值的对象删除，从而得到完备的信息表。在对象有多个属性缺失值、被删除的韩缺失值的对象与初始数据集的数据量相比非常小的情况下很有效。</p>
+<p> 它的局限性在于，以减少历史数据为代价来换取信息的完备，会丢失大量隐藏在这些对象种的信息，尤其是当遗漏数据非随机分布时，这种方法可能导致数据发生偏移，模型性能下降。</p>
+</li>
+<li><p>数据补齐</p>
+<p> 用一定的值去填充空值，根据初始数据集种其余对象取值的分布情况来对一个缺失值进行填充。</p>
+<p> 2.1 人工填写：填充效果最好，耗时多，烧钱快</p>
+<p> 2.2 特殊值填充：将空值作为一种特殊的属性值来处理，它不同于其他的任何属性值；但可能导致严重的数据偏离，不推荐使用。</p>
+<p> 2.3 平均值填充：将初始数据集中的属性分为数值属性和非数值属性来分别进行处理；如果空值是数值型，取平均值。如果是非数值型，取众数。</p>
+<p> 2.4 就近补齐：在完整数据中找到与包含空值对象最相似的对象，然后用该对象的值来填充。</p>
+<p> 2.5 K-means聚类：根据欧式举例或者相关分析来确定举例具有缺失数据样本最近的K个样本，用这K个值的加权平均来估计该样本的缺失数据。</p>
+<p> 2.6 回归：将含空值的对象视作要预测的对象</p>
+<p> 2.7 EM（期望值最大化法）：在不完全数据情况下计算极大似然估计或者后验分布的迭代算法。每一迭代交替进行：(a)在给定完全数据和前一次迭代所得到的参数估计情况下计算完全数据对应的对数似然函数的条件期望；(b)对极大化对数似然函数以确定参数的值，用于下一步的跌打。直到收敛。计算比较复杂。</p>
+</li>
+<li><p>不处理</p>
+<p> 补齐处理只是将未知值补以我们的主观估计值，不一定完全符合客观事实，在对不完备信息进行补齐处理的同时，或多或少地改变了原始的信息系统。而且，对空值不正确的填充往往将新的噪声引入数据中，也会产生错误的结果。因此，在许多情况下，还是希望在保持原始信息不发生变化的前提下对信息系统进行处理。</p>
+<p> 不处理缺失值，直接在包含空值的数据上进行数据挖掘的方法。</p>
+</li>
+</ol>
+<h3 id="创造新特征"><a href="#创造新特征" class="headerlink" title="创造新特征"></a>创造新特征</h3><p>比如比例特征，最大值，最小值，多项式特征等等</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/基础算法/" rel="tag"># 基础算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/27/2019-08-27-过拟合/" rel="next" title="过拟合和欠拟合">
+                <i class="fa fa-chevron-left"></i> 过拟合和欠拟合
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/27/2019-08-27-笔试复盘/" rel="prev" title="笔面试复盘">
+                笔面试复盘 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">李子泠</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#探索性数据分析"><span class="nav-number">1.</span> <span class="nav-text">探索性数据分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预处理"><span class="nav-number">2.</span> <span class="nav-text">预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理已有特征"><span class="nav-number">3.</span> <span class="nav-text">处理已有特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺失值处理"><span class="nav-number">4.</span> <span class="nav-text">缺失值处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创造新特征"><span class="nav-number">5.</span> <span class="nav-text">创造新特征</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李子泠</span>
+
+  
+</div>
+
+
+  <div class="powered-by">喵</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">
+    嗷嗷嗷
+  </div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

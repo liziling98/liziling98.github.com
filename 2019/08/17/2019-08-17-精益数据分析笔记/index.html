@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据分析,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="海盗指标    要素 相关指标 功用    获取用户 流量，提及量，每次点击费用，搜索结果，用户获取成本，点开率 博取用户眼球   提高活跃度 注册人数，注册量，新手教程完成量，至少用过一次产品的人数，订阅量 将获取的“过客”式访客转化为产品的真正用户   提高留存率 用户参与度，距上次登录的时间，日/月活跃使用量，流失率 用户黏性，再次访问   获取营收 免费到付费转化率，平均购物车大小，广告营">
+<meta name="keywords" content="数据分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《精益数据分析》笔记">
+<meta property="og:url" content="http://yoursite.com/2019/08/17/2019-08-17-精益数据分析笔记/index.html">
+<meta property="og:site_name" content="李子泠">
+<meta property="og:description" content="海盗指标    要素 相关指标 功用    获取用户 流量，提及量，每次点击费用，搜索结果，用户获取成本，点开率 博取用户眼球   提高活跃度 注册人数，注册量，新手教程完成量，至少用过一次产品的人数，订阅量 将获取的“过客”式访客转化为产品的真正用户   提高留存率 用户参与度，距上次登录的时间，日/月活跃使用量，流失率 用户黏性，再次访问   获取营收 免费到付费转化率，平均购物车大小，广告营">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-27T15:39:31.513Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《精益数据分析》笔记">
+<meta name="twitter:description" content="海盗指标    要素 相关指标 功用    获取用户 流量，提及量，每次点击费用，搜索结果，用户获取成本，点开率 博取用户眼球   提高活跃度 注册人数，注册量，新手教程完成量，至少用过一次产品的人数，订阅量 将获取的“过客”式访客转化为产品的真正用户   提高留存率 用户参与度，距上次登录的时间，日/月活跃使用量，流失率 用户黏性，再次访问   获取营收 免费到付费转化率，平均购物车大小，广告营">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/17/2019-08-17-精益数据分析笔记/">
+
+
+
+
+
+  <title>《精益数据分析》笔记 | 李子泠</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">李子泠</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/17/2019-08-17-精益数据分析笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李子泠">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="李子泠">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《精益数据分析》笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-17T15:30:00+01:00">
+                2019-08-17 15:30:00
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-27T16:39:31+01:00">
+                2019-08-27 16:39:31
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据/" itemprop="url" rel="index">
+                    <span itemprop="name">数据</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>海盗指标</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>相关指标</th>
+<th>功用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>获取用户</td>
+<td>流量，提及量，每次点击费用，搜索结果，用户获取成本，点开率</td>
+<td>博取用户眼球</td>
+</tr>
+<tr>
+<td>提高活跃度</td>
+<td>注册人数，注册量，新手教程完成量，至少用过一次产品的人数，订阅量</td>
+<td>将获取的“过客”式访客转化为产品的真正用户</td>
+</tr>
+<tr>
+<td>提高留存率</td>
+<td>用户参与度，距上次登录的时间，日/月活跃使用量，流失率</td>
+<td>用户黏性，再次访问</td>
+</tr>
+<tr>
+<td>获取营收</td>
+<td>免费到付费转化率，平均购物车大小，广告营收</td>
+<td>商业活动的产出（如购买量，广告点击量，内容产生量，订阅量等等）</td>
+</tr>
+<tr>
+<td>自传播</td>
+<td>邀请发送量，病毒式传播，病毒传播周期</td>
+<td>已有用户对潜在用户的口碑传播</td>
+</tr>
+</tbody></table>
+<p><strong>黏着式增长引擎</strong></p>
+<p>重点在于让用户持续使用该产品，最重要的衡量指标就是客户留存率，除此之外还有流失率和使用频率。</p>
+<p>比如人们很难放弃使用Gmail，因为那里存储了很多资料</p>
+<p><strong>病毒式增长引擎</strong></p>
+<p>它的指数性本质：如果每个用户能带来1.5个新用户，那么用户数将会无限制地增长到饱和。</p>
+<p>比如社交网络访问用户的通讯录，这算是诱导用户邀请通讯录里面的联系人。</p>
+<p>其他指标也包括用户完成一次邀请所需要的时间（病毒传播周期）</p>
+<p>病毒性营销能够以较低的成本带来高价值的流量，同时具备最低的客户获取成本和最高的推荐价值，因为访客往往是由身边的人推荐来的</p>
+<p><strong>付费式增长引擎</strong></p>
+<p>衡量客户终生价值和客户获取成本，或者查看客户盈亏平衡时间，也就是收回获取一名客户的成本所需的时间</p>
+<p><strong>第一关键指标</strong></p>
+<p>通过将每日KPI控制到几个很少的指标，我们能够更清晰地认识到公司的专注点在哪里，这样不会将很多时间浪费在报告和沟通一些并不重要的数据上。</p>
+<p>它可能是随阶段变化的。比如在用户获取阶段（以及免费用户转化为收费用户时），第一关键指标应该是与用户渠道获取效果，注册用户到活跃用户的转化率挂钩。当企业重心转移到留存率时，更改更关注流失率，对定价和功能组合进行试验，改善客户支持等。</p>
+<p>为什么要使用第一指标：</p>
+<ol>
+<li>回答了现阶段最重要的问题</li>
+<li>促使企业得出初始基线并能够确定清晰的目标</li>
+</ol>
+<p><strong>定立初始成功基准</strong></p>
+<p>比如，确定“每周新顾客数”为当前首要指标，以这个标准为目标。它将会指导公司每周需要引入多少新客户，或者说认为每周从每个渠道获取多少新客户才算成功。</p>
+<p><strong>关于用户</strong></p>
+<p>需要区分哪些时真正的有价值的用户，哪些只是路过甚至有害的用户。划分清楚后，接下来要做的就是通过改变产品，更可能增长优质用户的比例，同时驱逐劣质用户。尽可能地为好的用户提供优化。</p>
+<p>比如直接所要用户的信用卡信息，用来挡掉没有任何付费意愿的用户；也可以放弃用邮件等方式激活那些久不使用的用户。</p>
+<p><strong>用户获取渠道</strong></p>
+<p>付费广告，搜索引擎管理，社交媒体推广，原生病毒性，人工病毒性，联盟营销，公共关系，应用市场</p>
+<p><strong>销售战略</strong></p>
+<p>简单购买，折扣&amp;激励，免费试用，免费增值，为隐私付费，免费游戏</p>
+<p><strong>营收模式</strong></p>
+<p>一次性交易，常续性订阅，费用收取，广告点击率，转售用户数据</p>
+<p><strong>产品类型</strong></p>
+<p>软件，平台，推销，用户生成内容，市场，媒体/内容，服务</p>
+<p><strong>商业模式：电子商务</strong></p>
+<p>重视用户关系的电商公司，鼓励用户填写心愿单，撰写商品评论，用来培养核心商业模式外的其他模式，例如用户生成内容，只要这些模式对用户的购买量有益即可。</p>
+<p><strong>转化率</strong></p>
+<p>转化率指访客中发生购买行为的比例，可以用来评价电商健康程度。可以按照人群、商品、方可来源等多重标准分类讨论转化率，以观察哪些因素可以增加访客的购买欲。</p>
+<p><strong>推荐接受率</strong></p>
+<p>推荐的方法很多，有的基于买家的购买历史，有的试图通过地理、访问来源、点击行为等属性来预测访客的购买意图</p>
+<p>多变的衡量指标归根结底是为了：企业能从推荐的商品中获得多少额外的营收</p>
+<p><strong>邮件列表点入率</strong></p>
+<p>可能受到发送方截流，无效地址，发送方被标记为垃圾邮件，因邮件内容被收信方服务器/客户端标记为垃圾邮件，客户未打开，客户未点击链接，企业未达到目的影响</p>
+<p><strong>商业模式：免费移动应用</strong></p>
+<p>收入有两个来源：一是直接销售应用，付费下载；二是游戏内购、付费功能或者广告等其他渠道</p>
+<p>应用内购买可以包括：</p>
+<ol>
+<li>可下载内容：例如新的地图</li>
+<li>外观定制：如英雄联盟皮肤</li>
+<li>优势：更好的武器装备</li>
+<li>节约时间：减少复活时间或者虚弱时间</li>
+<li>跳过冷却：如RPG网游的能量/精力条</li>
+<li>追加销售到付费版本：免费版本到付费版本，如付费版印象笔记，提供更多功能</li>
+<li>应用内广告</li>
+</ol>
+<p>可以用一些重要指标衡量它们：</p>
+<ol>
+<li>下载量</li>
+<li>客户获取成本(CPC)</li>
+<li>应用运行率：实际开启该应用的注册用户</li>
+<li>活跃用户比例：日活跃用户/月活跃用户</li>
+<li>付费用户率</li>
+<li>首次付费时间：开启账户多久会开始购买</li>
+<li>用户平均每月营收</li>
+<li>点评率</li>
+<li>病毒性：平均每位用户可以邀请多少新用户</li>
+<li>客户终生价值：试用期间该用户贡献的营收</li>
+</ol>
+<p>在应用商城的安装量：保持排名靠前可以增加收益和下载量</p>
+<p>付费用户比例十分重要，跟踪平均每位用户营收，区别对待付费用户和免费用户，单独跟踪付费用户的行为、流失率以及营收</p>
+<p>企业同时也应该关注用户流失率，了解用户何使流失有助于掌握用户流失的原因以及阻止流失的方法</p>
+<p>查找数据任何不同寻常或者不好理解的地方，找出背后的问题，思考改进方案</p>
+<p><strong>商业模式：用户生成内容</strong></p>
+<p>例子：Facebook等社交网站，将用户聚集在一起，组成在线社区并且生成用户内容。这种类型企业的核心关注点在于培养能够生成内容的用户社区</p>
+<p>关键指标包括：</p>
+<ol>
+<li>活跃访客数</li>
+<li>内容生成：参与互动的访客比例</li>
+<li>参与度漏斗的变化：网站是否有效地增加了用户参与度</li>
+<li>生成内容的质量：内容的商业价值，比如广告收入</li>
+<li>内容分享和病毒性：内容如何被分享，分享又是如何有利于网站发展的</li>
+<li>消息提醒的有效性：看到推送或者其他提醒时，给予回应的用户比例</li>
+</ol>
+<p>UGC网站在内容生成方面呈指数分布，即小部分人生成了绝大多数内容，为提高用户回访率并保持较高的参与度，可使用推送和邮件来通知用户</p>
+<p>衡量生成内容价值时，最好按照用户群或者流量来源分开比较，包括广告页面浏览量、通过点击发布内容生成的提成收入等指标</p>
+<p>被动生成的内容包括：自动生成的行为时间表，系统记录的点击流数据等等。这位转变为生产数据手机工具的公司带来了巨大的优势</p>
+<p>UGC领域的重要变革包括：</p>
+<ol>
+<li>无处不在的签到，智能设备负责记录地理维智的变化并将其分享到网上</li>
+<li>电子钱包，可存放积分、票据、会员数据等</li>
+<li>近场通信，使摇一摇电子设备就能完成支付或分享信息成为可能</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据分析/" rel="tag"># 数据分析</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/15/2019-08-15-随笔1/" rel="next" title="博客重新上线">
+                <i class="fa fa-chevron-left"></i> 博客重新上线
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/18/2019-08-18-数据异常分析/" rel="prev" title="数据异常分析">
+                数据异常分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">李子泠</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李子泠</span>
+
+  
+</div>
+
+
+  <div class="powered-by">喵</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">
+    嗷嗷嗷
+  </div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

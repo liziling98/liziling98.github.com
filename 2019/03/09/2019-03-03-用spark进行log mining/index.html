@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="spark,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="deadline： 2019-03-06 （基于linux平台运行代码） 实验目的 提取一周每天对应的平均request次数  找出所有被查看的gif文件，返回其中请求次数最高的20个 实验数据来源：ftp://ita.ee.lbl.gov/traces/NASA_access_log_Jul95.gz   bash文件1234567891011121314151617#!/bin/bash#$">
+<meta name="keywords" content="spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用spark进行log mining">
+<meta property="og:url" content="http://yoursite.com/2019/03/09/2019-03-03-用spark进行log mining/index.html">
+<meta property="og:site_name" content="李子泠">
+<meta property="og:description" content="deadline： 2019-03-06 （基于linux平台运行代码） 实验目的 提取一周每天对应的平均request次数  找出所有被查看的gif文件，返回其中请求次数最高的20个 实验数据来源：ftp://ita.ee.lbl.gov/traces/NASA_access_log_Jul95.gz   bash文件1234567891011121314151617#!/bin/bash#$">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://github.com/liziling98/liziling98.github.io/blob/master/_posts/Q1_b.png">
+<meta property="og:image" content="https://github.com/liziling98/liziling98.github.io/blob/master/_posts/Q1_d.png">
+<meta property="og:updated_time" content="2019-08-27T15:40:56.822Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用spark进行log mining">
+<meta name="twitter:description" content="deadline： 2019-03-06 （基于linux平台运行代码） 实验目的 提取一周每天对应的平均request次数  找出所有被查看的gif文件，返回其中请求次数最高的20个 实验数据来源：ftp://ita.ee.lbl.gov/traces/NASA_access_log_Jul95.gz   bash文件1234567891011121314151617#!/bin/bash#$">
+<meta name="twitter:image" content="https://github.com/liziling98/liziling98.github.io/blob/master/_posts/Q1_b.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/09/2019-03-03-用spark进行log mining/">
+
+
+
+
+
+  <title>用spark进行log mining | 李子泠</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">李子泠</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/09/2019-03-03-用spark进行log mining/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李子泠">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="李子泠">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">用spark进行log mining</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-09T03:00:00+00:00">
+                2019-03-09 03:00:00
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-27T16:40:56+01:00">
+                2019-08-27 16:40:56
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>deadline： 2019-03-06</p>
+<p>（基于linux平台运行代码）</p>
+<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a><strong>实验目的</strong></h2><ol>
+<li><p>提取一周每天对应的平均request次数</p>
+</li>
+<li><p>找出所有被查看的gif文件，返回其中请求次数最高的20个</p>
+<p>实验数据来源：<a href="ftp://ita.ee.lbl.gov/traces/NASA_access_log_Jul95.gz" target="_blank" rel="noopener">ftp://ita.ee.lbl.gov/traces/NASA_access_log_Jul95.gz</a></p>
+</li>
+</ol>
+<h2 id="bash文件"><a href="#bash文件" class="headerlink" title="bash文件"></a>bash文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment">#$ -l h_rt=3:00:00  #time needed</span></span><br><span class="line"><span class="comment">#$ -pe smp 2 #number of cores</span></span><br><span class="line"><span class="comment">#$ -l rmem=4G #number of memery</span></span><br><span class="line"><span class="comment">#$ -o Q1_output.txt #This is where your output and errors are logged.</span></span><br><span class="line"><span class="comment">#$ -j y # normal and error outputs into a single file (the file above)</span></span><br><span class="line"><span class="comment">#$ -M zli132@sheffield.ac.uk #Notify you by email, remove this line if you don't like</span></span><br><span class="line"><span class="comment">#$ -m ea #Email you when it finished or aborted</span></span><br><span class="line"><span class="comment">#$ -cwd # Run job from current directory</span></span><br><span class="line"></span><br><span class="line">module load apps/java/jdk1.8.0_102/binary</span><br><span class="line"></span><br><span class="line">module load apps/python/conda</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> activate myspark</span><br><span class="line"></span><br><span class="line">spark-submit ../Code/Q1.py</span><br></pre></td></tr></table></figure>
+
+<h2 id="python代码部分"><a href="#python代码部分" class="headerlink" title="python代码部分"></a>python代码部分</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pyspark</span><br><span class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> SparkSession</span><br><span class="line">spark = SparkSession.builder \</span><br><span class="line">    .master(<span class="string">"local[2]"</span>) \</span><br><span class="line">    .appName(<span class="string">"liziling1"</span>) \</span><br><span class="line">    .getOrCreate()</span><br><span class="line">sc = spark.sparkContext</span><br><span class="line">sc.setLogLevel(<span class="string">"ERROR"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> Row,Column</span><br><span class="line"><span class="keyword">from</span> pyspark.sql.functions <span class="keyword">import</span> regexp_extract,regexp_replace</span><br><span class="line"><span class="keyword">from</span> pyspark.sql.functions <span class="keyword">import</span> from_unixtime,unix_timestamp</span><br><span class="line"><span class="keyword">from</span> pyspark.sql.functions <span class="keyword">import</span> dayofweek</span><br><span class="line"><span class="keyword">from</span> pyspark.sql.functions <span class="keyword">import</span> desc</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">logFile = spark.read.text(<span class="string">"../Data/NASA_access_log_Jul95.gz"</span>)</span><br><span class="line">July = logFile.filter(logFile.value.contains(<span class="string">"Jul"</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line"><span class="comment"># 时间规范化并将其转换成礼拜</span></span><br><span class="line">timestamp = July.select(regexp_extract(<span class="string">'value'</span>, <span class="string">'\[(.*?)\]'</span>, <span class="number">1</span>).alias(<span class="string">'timestamp'</span>))</span><br><span class="line">time = July.select(regexp_extract(<span class="string">'value'</span>, <span class="string">'\[(.*?)\:'</span>, <span class="number">1</span>).alias(<span class="string">'time'</span>))</span><br><span class="line">replace_jul = time.select(regexp_replace(<span class="string">'time'</span>, <span class="string">'[A-Za-z]+'</span>, <span class="string">'07'</span>).alias(<span class="string">"time"</span>))</span><br><span class="line">change = replace_jul.withColumn(<span class="string">"time"</span>, regexp_replace(replace_jul.time, <span class="string">"(\d&#123;2&#125;+)/(\d&#123;2&#125;+)/(\d&#123;4&#125;)"</span>, <span class="string">"$3/$2/$1"</span>))</span><br><span class="line">formal_time = change.select(regexp_replace(<span class="string">'time'</span>, <span class="string">'\/+'</span>, <span class="string">'-'</span>).alias(<span class="string">"time"</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算每个星期一，星期二等等出现次数</span></span><br><span class="line">single_day = formal_time.dropDuplicates()</span><br><span class="line">singe_num = single_day.select(dayofweek(single_day.time).alias(<span class="string">"time"</span>))</span><br><span class="line">week_stas = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):</span><br><span class="line">    a = singe_num.filter(singe_num.time == (i+<span class="number">1</span>)).count()</span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">        week_stas[<span class="number">7</span>] = a</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        week_stas[i] = a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算每个星期一，星期二等等出现的请求次数</span></span><br><span class="line">week_num = formal_time.select(dayofweek(formal_time.time).alias(<span class="string">"time"</span>))</span><br><span class="line">count = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):</span><br><span class="line">    a = week_num.filter(week_num.time == (i+<span class="number">1</span>)).count()</span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">        count[<span class="number">7</span>] = a</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        count[i] = a</span><br><span class="line"></span><br><span class="line">average_count = [count[i]/week_stas[i] <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">8</span>)]</span><br><span class="line">print(<span class="string">'from monday to sunday, the average request count:\n'</span>,average_count)</span><br><span class="line"></span><br><span class="line">days = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>]</span><br><span class="line">day_count = [[days[i], week_stas[i+<span class="number">1</span>], count[i+<span class="number">1</span>], average_count[i]] <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>)]</span><br><span class="line">rdd = sc.parallelize(day_count)</span><br><span class="line">average = rdd.toDF([<span class="string">"day"</span>,<span class="string">"day_freq"</span>,<span class="string">"count"</span>,<span class="string">"average_count"</span>])</span><br><span class="line">average.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘图</span></span><br><span class="line">fig, ax = plt.subplots(figsize = (<span class="number">8</span>,<span class="number">6</span>))</span><br><span class="line">ax.bar(days, average_count, color=<span class="string">'black'</span>)</span><br><span class="line">plt.xlabel(<span class="string">"day"</span>)</span><br><span class="line">plt.ylabel(<span class="string">"average count"</span>)</span><br><span class="line">plt.ylim(<span class="number">30000</span>,<span class="number">100000</span>)</span><br><span class="line"><span class="keyword">for</span> a,b <span class="keyword">in</span> zip(days,average_count):</span><br><span class="line">    plt.text(a, b+<span class="number">0.05</span>, b, ha=<span class="string">'center'</span>, va= <span class="string">'bottom'</span>,fontsize=<span class="number">12</span>)</span><br><span class="line">plt.title(<span class="string">"average number of requests on each of the seven days in a week"</span>)</span><br><span class="line">plt.savefig(<span class="string">'Q1_b.png'</span>,dpi=<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2</span></span><br><span class="line"><span class="comment"># 筛选出gif文件并分组计数</span></span><br><span class="line">Gif_request = logFile.filter(logFile.value.contains(<span class="string">".gif"</span>))</span><br><span class="line">gif_request = Gif_request.select(regexp_extract(<span class="string">'value'</span>, <span class="string">'".*/(.*?.gif)'</span>,<span class="number">1</span>).alias(<span class="string">'request'</span>))</span><br><span class="line">group_by_gif = gif_request.groupBy(<span class="string">"request"</span>).count().orderBy(desc(<span class="string">'count'</span>))</span><br><span class="line">top20 = group_by_gif.limit(<span class="number">20</span>)</span><br><span class="line">top20.show(<span class="number">20</span>,<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘图</span></span><br><span class="line">y_value = group_by_gif.take(<span class="number">20</span>)</span><br><span class="line">name = [item[<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> y_value]</span><br><span class="line">request_freq = [item[<span class="number">1</span>] <span class="keyword">for</span> item <span class="keyword">in</span> y_value]</span><br><span class="line">fig, ax = plt.subplots(figsize=(<span class="number">15</span>,<span class="number">8</span>))</span><br><span class="line">ax.barh(name, request_freq, color = <span class="string">'black'</span>)</span><br><span class="line">plt.xlabel(<span class="string">"name"</span>)</span><br><span class="line">plt.ylabel(<span class="string">"request_freq"</span>)</span><br><span class="line">plt.title(<span class="string">"average number of requests on each of the seven days in a week"</span>)</span><br><span class="line"><span class="keyword">for</span> a,b <span class="keyword">in</span> zip(name,request_freq):</span><br><span class="line">    plt.text(b, a, b, ha=<span class="string">'right'</span>, va= <span class="string">'center'</span>,fontsize=<span class="number">12</span>,color=<span class="string">'white'</span>)</span><br><span class="line">plt.savefig(<span class="string">'Q1_d.png'</span>,dpi=<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">spark.stop()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/liziling98/liziling98.github.io/blob/master/_posts/Q1_b.png" alt></p>
+<p><img src="https://github.com/liziling98/liziling98.github.io/blob/master/_posts/Q1_d.png" alt></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spark/" rel="tag"># spark</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/09/2019-03-09-用spark进行电影推荐/" rel="prev" title="用spark进行电影推荐">
+                用spark进行电影推荐 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">李子泠</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验目的"><span class="nav-number">1.</span> <span class="nav-text">实验目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bash文件"><span class="nav-number">2.</span> <span class="nav-text">bash文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python代码部分"><span class="nav-number">3.</span> <span class="nav-text">python代码部分</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李子泠</span>
+
+  
+</div>
+
+
+  <div class="powered-by">喵</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">
+    嗷嗷嗷
+  </div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
