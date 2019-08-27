@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SQL,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="emplyees表格式如下，主键为’emp_no’    emp_no birth_date first_name last_name gender hire_date    salaries表格式如下，主键为’emp_no’和’from_date’emp_no | salary | from_date | to_date-|-|-|- dept_emp表格式如下，主键是’emp_no’, ‘de">
+<meta name="keywords" content="SQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL学习笔记（二）">
+<meta property="og:url" content="http://yoursite.com/2019/08/27/2019-08-18-sql练习/index.html">
+<meta property="og:site_name" content="李子泠">
+<meta property="og:description" content="emplyees表格式如下，主键为’emp_no’    emp_no birth_date first_name last_name gender hire_date    salaries表格式如下，主键为’emp_no’和’from_date’emp_no | salary | from_date | to_date-|-|-|- dept_emp表格式如下，主键是’emp_no’, ‘de">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-18T11:28:22.540Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SQL学习笔记（二）">
+<meta name="twitter:description" content="emplyees表格式如下，主键为’emp_no’    emp_no birth_date first_name last_name gender hire_date    salaries表格式如下，主键为’emp_no’和’from_date’emp_no | salary | from_date | to_date-|-|-|- dept_emp表格式如下，主键是’emp_no’, ‘de">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/27/2019-08-18-sql练习/">
+
+
+
+
+
+  <title>SQL学习笔记（二） | 李子泠</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">李子泠</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/2019-08-18-sql练习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李子泠">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="李子泠">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SQL学习笔记（二）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T01:24:49+01:00">
+                2019-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据/" itemprop="url" rel="index">
+                    <span itemprop="name">数据</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>emplyees表格式如下，主键为’emp_no’</p>
+<table>
+<thead>
+<tr>
+<th>emp_no</th>
+<th>birth_date</th>
+<th>first_name</th>
+<th>last_name</th>
+<th>gender</th>
+<th>hire_date</th>
+</tr>
+</thead>
+</table>
+<p>salaries表格式如下，主键为’emp_no’和’from_date’<br>emp_no | salary | from_date | to_date<br>-|-|-|-</p>
+<p>dept_emp表格式如下，主键是’emp_no’, ‘dept_no’<br>emp_no | dept_no | from_date | to_date<br>-|-|-|-</p>
+<p>dept_manager表格式如下，主键是’emp_no’, ‘dept_no’<br>dept_no | emp_no | from_date | to_date<br>-|-|-|-</p>
+<p>departments表格式如下，主键是’dept_no’<br>dept_no | dept_name<br>-|-</p>
+<p>titles表格式如下<br>emp_no | title | from_date | to_date<br>-|-|-|-</p>
+<h4 id="1-查找最晚入职员工的所有信息"><a href="#1-查找最晚入职员工的所有信息" class="headerlink" title="1.查找最晚入职员工的所有信息"></a>1.查找最晚入职员工的所有信息</h4><p>最晚入职的当天未必就一个人，也许有多人，使用排序并限制得只能取得指定数量的结果</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> hire_date =</span><br><span class="line">(<span class="keyword">SELECT</span> <span class="keyword">max</span>(hire_date) <span class="keyword">FROM</span> employees)</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-查找入职员工时间排名倒数第三的员工所有信息"><a href="#2-查找入职员工时间排名倒数第三的员工所有信息" class="headerlink" title="2.查找入职员工时间排名倒数第三的员工所有信息"></a>2.查找入职员工时间排名倒数第三的员工所有信息</h4><p>使用window function，不过也可以使用LIMIT 2,1 来选择倒数第三</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> emp_no, birth_date, first_name,last_name, gender,hire_date</span><br><span class="line"><span class="keyword">from</span> (<span class="keyword">select</span> emp_no, birth_date, first_name,last_name, gender,hire_date,<span class="keyword">dense_rank</span>() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> hire_date <span class="keyword">desc</span> ) <span class="keyword">as</span> <span class="keyword">num</span></span><br><span class="line">    <span class="keyword">from</span> employees) <span class="keyword">as</span> t</span><br><span class="line"><span class="keyword">where</span> t.num = <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-查找当前薪水详情以及部门编号dept-no"><a href="#3-查找当前薪水详情以及部门编号dept-no" class="headerlink" title="3.查找当前薪水详情以及部门编号dept_no"></a>3.查找当前薪水详情以及部门编号dept_no</h4><p>查找各个部门当前(to_date=’9999-01-01’)领导当前薪水详情以及其对应部门编号dept_no</p>
+<p>主表应该是salaries</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> salaries.*, dept_manager.dept_no</span><br><span class="line"><span class="keyword">FROM</span> salaries</span><br><span class="line"><span class="keyword">JOIN</span> dept_manager</span><br><span class="line"><span class="keyword">ON</span> salaries.emp_no = dept_manager.emp_no</span><br><span class="line"><span class="keyword">WHERE</span> salaries.to_date = <span class="string">'9999-01-01'</span> <span class="keyword">AND</span> dept_manager.to_date = <span class="string">'9999-01-01'</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-查找所有已经分配部门的员工的last-name和first-name"><a href="#4-查找所有已经分配部门的员工的last-name和first-name" class="headerlink" title="4.查找所有已经分配部门的员工的last_name和first_name"></a>4.查找所有已经分配部门的员工的last_name和first_name</h4><p>查找所有已经分配部门的员工的last_name和first_name</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.last_name, e.first_name, d.dept_no</span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> dept_emp d</span><br><span class="line"><span class="keyword">ON</span> e.emp_no = d.emp_no</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-查找所有员工的last-name和first-name以及对应部门编号dept-no"><a href="#5-查找所有员工的last-name和first-name以及对应部门编号dept-no" class="headerlink" title="5.查找所有员工的last_name和first_name以及对应部门编号dept_no"></a>5.查找所有员工的last_name和first_name以及对应部门编号dept_no</h4><p>查找所有员工的last_name和first_name以及对应部门编号dept_no，也包括展示没有分配具体部门的员工</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.last_name, e.first_name, d.dept_no</span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> dept_emp d</span><br><span class="line"><span class="keyword">ON</span> e.emp_no = d.emp_no</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-查找所有员工入职时候的薪水情况"><a href="#6-查找所有员工入职时候的薪水情况" class="headerlink" title="6.查找所有员工入职时候的薪水情况"></a>6.查找所有员工入职时候的薪水情况</h4><p>查找所有员工入职时候的薪水情况，给出emp_no以及salary， 并按照emp_no进行逆序</p>
+<p>salaries.emp_no不唯一（因为号码为emp_no的员工会有多次涨薪的可能，所以在salaries中对应的记录不止一条），employees.emp_no唯一，因此需先找到 employees.emp_no在salaries表中对应的记录salaries.emp_no，则有限制条件e.emp_no = s.emp_no</p>
+<p>salaries.from_date和employees.hire_date的值应该要相等，因此有限制条件e.hire_date = s.from_date</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.emp_no, s.salary</span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> salaries s</span><br><span class="line"><span class="keyword">ON</span> e.emp_no = s.emp_no <span class="keyword">AND</span> e.hire_date = s.from_date</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">by</span> e.emp_no <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="7-查找薪水涨幅超过15次的员工号emp-no以及其对应的涨幅次数t"><a href="#7-查找薪水涨幅超过15次的员工号emp-no以及其对应的涨幅次数t" class="headerlink" title="7.查找薪水涨幅超过15次的员工号emp_no以及其对应的涨幅次数t"></a>7.查找薪水涨幅超过15次的员工号emp_no以及其对应的涨幅次数t</h4><p>查找薪水涨幅超过15次的员工号emp_no以及其对应的涨幅次数t</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> emp_no, <span class="keyword">COUNT</span>(emp_no) <span class="keyword">AS</span> t</span><br><span class="line"><span class="keyword">FROM</span> salaries</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> emp_no</span><br><span class="line"><span class="keyword">HAVING</span> t &gt; <span class="number">15</span></span><br></pre></td></tr></table></figure>
+
+<p>但是正确解法应该是，因为员工的工资记录不一定是一直上涨</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.emp_no,<span class="keyword">count</span>(*) t <span class="keyword">from</span> salaries a <span class="keyword">inner</span> <span class="keyword">join</span> salaries b</span><br><span class="line"><span class="keyword">on</span> a.emp_no=b.emp_no <span class="keyword">and</span> a.to_date = b.from_date</span><br><span class="line"><span class="keyword">where</span> a.salary &lt; b.salary</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> a.emp_no</span><br><span class="line"><span class="keyword">having</span> t&gt;<span class="number">15</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="8-获取所有部门当前manager的当前薪水情况"><a href="#8-获取所有部门当前manager的当前薪水情况" class="headerlink" title="8.获取所有部门当前manager的当前薪水情况"></a>8.获取所有部门当前manager的当前薪水情况</h4><p>获取所有部门当前manager的当前薪水情况，给出dept_no, emp_no以及salary，当前表示to_date=’9999-01-01’</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> d.dept_no, d.emp_no, s.salary</span><br><span class="line"><span class="keyword">FROM</span> dept_manager d</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> salaries s</span><br><span class="line"><span class="keyword">ON</span> d.emp_no = s.emp_no</span><br><span class="line"><span class="keyword">WHERE</span> d.to_date = <span class="string">'9999-01-01'</span> <span class="keyword">AND</span> s.to_date = <span class="string">'9999-01-01'</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="9-获取所有非manager的员工emp-no"><a href="#9-获取所有非manager的员工emp-no" class="headerlink" title="9.获取所有非manager的员工emp_no"></a>9.获取所有非manager的员工emp_no</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> emp_no</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> emp_no <span class="keyword">NOT</span> <span class="keyword">IN</span> (<span class="keyword">SELECT</span> e.emp_no</span><br><span class="line">                    <span class="keyword">FROM</span> employees e</span><br><span class="line">                    <span class="keyword">INNER</span> <span class="keyword">JOIN</span> dept_manager d</span><br><span class="line">                    <span class="keyword">ON</span> e.emp_no = d.emp_no)</span><br></pre></td></tr></table></figure>
+
+<h4 id="10-获取所有员工当前的manager"><a href="#10-获取所有员工当前的manager" class="headerlink" title="10.获取所有员工当前的manager"></a>10.获取所有员工当前的manager</h4><p>获取所有员工当前的manager，如果当前的manager是自己的话结果不显示，当前表示to_date=’9999-01-01’。结果第一列给出当前员工的emp_no,第二列给出其manager对应的manager_no。</p>
+<p>连接两张表，因为要输出员工的经理，所以员工与经理的部门要相同</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.emp_no, d.emp_no <span class="keyword">AS</span> manager_no</span><br><span class="line"><span class="keyword">FROM</span> dept_emp e</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> dept_manager d</span><br><span class="line"><span class="keyword">ON</span> e.dept_no = d.dept_no</span><br><span class="line"><span class="keyword">WHERE</span> e.to_date = <span class="string">'9999-01-01'</span> <span class="keyword">AND</span> d.to_date = <span class="string">'9999-01-01'</span> <span class="keyword">AND</span> e.emp_no &lt;&gt; d.emp_no</span><br></pre></td></tr></table></figure>
+
+<h4 id="11-获取所有部门中当前员工薪水最高的相关信息"><a href="#11-获取所有部门中当前员工薪水最高的相关信息" class="headerlink" title="11.获取所有部门中当前员工薪水最高的相关信息"></a>11.获取所有部门中当前员工薪水最高的相关信息</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> d.dept_no, s.emp_no, <span class="keyword">max</span>(s.salary) <span class="keyword">AS</span> salary</span><br><span class="line"><span class="keyword">FROM</span> salaries s</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> dept_emp d</span><br><span class="line"><span class="keyword">ON</span> s.emp_no = d.emp_no</span><br><span class="line"><span class="keyword">WHERE</span> d.to_date = <span class="string">'9999-01-01'</span> <span class="keyword">AND</span> s.to_date = <span class="string">'9999-01-01'</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> d.dept_no</span><br></pre></td></tr></table></figure>
+
+<h4 id="12-从titles表获取按照title进行分组"><a href="#12-从titles表获取按照title进行分组" class="headerlink" title="12.从titles表获取按照title进行分组"></a>12.从titles表获取按照title进行分组</h4><p>从titles表获取按照title进行分组，每组个数大于等于2，给出title以及对应的数目t。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> title, <span class="keyword">COUNT</span>(title) <span class="keyword">AS</span> t</span><br><span class="line"><span class="keyword">FROM</span> titles</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> title <span class="keyword">HAVING</span> <span class="keyword">COUNT</span>(title) &gt; <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="13-从titles表获取按照title进行分组（去重）"><a href="#13-从titles表获取按照title进行分组（去重）" class="headerlink" title="13.从titles表获取按照title进行分组（去重）"></a>13.从titles表获取按照title进行分组（去重）</h4><p>从titles表获取按照title进行分组，每组个数大于等于2，给出title以及对应的数目t。注意对于重复的emp_no进行忽略。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> title, <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> emp_no) <span class="keyword">AS</span> t</span><br><span class="line"><span class="keyword">FROM</span> titles</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> title <span class="keyword">HAVING</span> t &gt; <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="14-查找employees表"><a href="#14-查找employees表" class="headerlink" title="14.查找employees表"></a>14.查找employees表</h4><p>查找employees表所有emp_no为奇数，且last_name不为Mary的员工信息，并按照hire_date逆序排列</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> emp_no % <span class="number">2</span> = <span class="number">1</span> <span class="keyword">AND</span> last_name &lt;&gt; <span class="string">'Mary'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> hire_date <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="15-统计出当前各个title类型对应的员工当前薪水对应的平均工资"><a href="#15-统计出当前各个title类型对应的员工当前薪水对应的平均工资" class="headerlink" title="15.统计出当前各个title类型对应的员工当前薪水对应的平均工资"></a>15.统计出当前各个title类型对应的员工当前薪水对应的平均工资</h4><p>统计出当前各个title类型对应的员工当前（to_date=’9999-01-01’）薪水对应的平均工资。结果给出title以及平均工资avg。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> t.title, <span class="keyword">avg</span>(s.salary) <span class="keyword">AS</span> <span class="keyword">avg</span></span><br><span class="line"><span class="keyword">FROM</span> titles t</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> salaries s</span><br><span class="line"><span class="keyword">ON</span> t.emp_no = s.emp_no</span><br><span class="line"><span class="keyword">WHERE</span> s.to_date = <span class="string">'9999-01-01'</span> <span class="keyword">AND</span> t.to_date = <span class="string">'9999-01-01'</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> title</span><br></pre></td></tr></table></figure>
+
+<h4 id="16-获取当前薪水第二多的员工的emp-no以及其对应的薪水salary"><a href="#16-获取当前薪水第二多的员工的emp-no以及其对应的薪水salary" class="headerlink" title="16.获取当前薪水第二多的员工的emp_no以及其对应的薪水salary"></a>16.获取当前薪水第二多的员工的emp_no以及其对应的薪水salary</h4><p>筛选出第二多的工资时要注意distinct salary，否则不能选出第二多的工资。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> emp_no, salary</span><br><span class="line"><span class="keyword">FROM</span> (<span class="keyword">SELECT</span> emp_no, salary, <span class="keyword">DENSE_RANK</span>() <span class="keyword">OVER</span> (<span class="keyword">ORDER</span> <span class="keyword">BY</span> salary <span class="keyword">DESC</span>) <span class="keyword">AS</span> <span class="keyword">num</span></span><br><span class="line">     <span class="keyword">FROM</span> salaries) <span class="keyword">AS</span> s</span><br><span class="line"><span class="keyword">WHERE</span> s.num = <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="17-获取当前薪水第二多的员工（不用order-by排序）"><a href="#17-获取当前薪水第二多的员工（不用order-by排序）" class="headerlink" title="17.获取当前薪水第二多的员工（不用order by排序）"></a>17.获取当前薪水第二多的员工（不用order by排序）</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.emp_no, s.salary, e.last_name, e.first_name</span><br><span class="line"><span class="keyword">FROM</span> employees e, salaries s</span><br><span class="line"><span class="keyword">WHERE</span> s.emp_no=e.emp_no <span class="keyword">AND</span> s.to_date = <span class="string">'9999-01-01'</span></span><br><span class="line"><span class="keyword">AND</span> s.salary = (<span class="keyword">SELECT</span> <span class="keyword">max</span>(salary)</span><br><span class="line">               <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> *</span><br><span class="line">                    <span class="keyword">FROM</span> salaries</span><br><span class="line">                    <span class="keyword">WHERE</span> salary != (<span class="keyword">SELECT</span> <span class="keyword">max</span>(salary)</span><br><span class="line">                                    <span class="keyword">FROM</span> salaries</span><br><span class="line">                                     <span class="keyword">WHERE</span> <span class="keyword">to_date</span> = <span class="string">'9999-01-01'</span></span><br><span class="line">                                    )</span><br><span class="line">                    )</span><br><span class="line">               <span class="keyword">WHERE</span> <span class="keyword">to_date</span> = <span class="string">'9999-01-01'</span></span><br><span class="line">               )</span><br></pre></td></tr></table></figure>
+
+<h4 id="18-查找所有员工的last-name和first-name以及对应的dept-name"><a href="#18-查找所有员工的last-name和first-name以及对应的dept-name" class="headerlink" title="18.查找所有员工的last_name和first_name以及对应的dept_name"></a>18.查找所有员工的last_name和first_name以及对应的dept_name</h4><p>查找所有员工的last_name和first_name以及对应的dept_name，也包括暂时没有分配部门的员工</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.last_name, e.first_name, d2.dept_name</span><br><span class="line"><span class="keyword">FROM</span> (employees e <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> dept_emp d1</span><br><span class="line">      <span class="keyword">ON</span> e.emp_no = d1.emp_no)</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> departments d2</span><br><span class="line"><span class="keyword">ON</span> d1.dept_no = d2.dept_no</span><br></pre></td></tr></table></figure>
+
+<h4 id="19-查找员工编号emp-no为10001其自入职以来的薪水涨幅值"><a href="#19-查找员工编号emp-no为10001其自入职以来的薪水涨幅值" class="headerlink" title="19.查找员工编号emp_no为10001其自入职以来的薪水涨幅值"></a>19.查找员工编号emp_no为10001其自入职以来的薪水涨幅值</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> s4.salary, s1.salary <span class="keyword">as</span> growth</span><br><span class="line"><span class="keyword">from</span> salaries s1</span><br><span class="line"><span class="keyword">inner</span> <span class="keyword">join</span> (<span class="keyword">select</span> <span class="keyword">min</span>(s2.from_date) firstDate, <span class="keyword">max</span>(s2.from_date) lastDate, s2.emp_no</span><br><span class="line">        <span class="keyword">from</span> salaries s2</span><br><span class="line">        <span class="keyword">where</span> s2.emp_no = <span class="string">'10001'</span></span><br><span class="line">        ) s3</span><br><span class="line"><span class="keyword">on</span> s1.emp_no = s3.emp_no <span class="keyword">and</span> s1.from_date = s3.firstDate</span><br><span class="line"><span class="keyword">inner</span> <span class="keyword">join</span> salaries s4</span><br><span class="line"><span class="keyword">on</span> s3.emp_no = s4.emp_no <span class="keyword">and</span> s3.lastDate = s4.from_date;</span><br></pre></td></tr></table></figure>
+
+<h4 id="20-查找最晚入职员工的所有信息"><a href="#20-查找最晚入职员工的所有信息" class="headerlink" title="20.查找最晚入职员工的所有信息"></a>20.查找最晚入职员工的所有信息</h4><p>查找所有员工自入职以来的薪水涨幅情况，给出员工编号emp_no以及其对应的薪水涨幅growth，并按照growth进行升序</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a.emp_no, (b.salary - c.salary) <span class="keyword">AS</span> growth</span><br><span class="line"><span class="keyword">FROM</span> employees <span class="keyword">AS</span> a</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> salaries <span class="keyword">AS</span> b <span class="keyword">ON</span> a.emp_no = b.emp_no <span class="keyword">AND</span> b.to_date = <span class="string">'9999-01-01'</span></span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> salaries <span class="keyword">AS</span> c <span class="keyword">ON</span> a.emp_no = b.emp_no <span class="keyword">AND</span> a.hire_date = c.from_date</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> growth <span class="keyword">ASC</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="21-统计各个部门对应员工涨幅的次数总和"><a href="#21-统计各个部门对应员工涨幅的次数总和" class="headerlink" title="21.统计各个部门对应员工涨幅的次数总和"></a>21.统计各个部门对应员工涨幅的次数总和</h4><p>统计各个部门对应员工涨幅的次数总和，给出部门编码dept_no、部门名称dept_name以及次数sum</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">    d.dept_no,</span><br><span class="line">    d.dept_name,</span><br><span class="line">    (<span class="keyword">select</span></span><br><span class="line">         <span class="keyword">sum</span>((<span class="keyword">select</span></span><br><span class="line">                 <span class="keyword">sum</span>((<span class="keyword">select</span></span><br><span class="line">                     <span class="keyword">case</span></span><br><span class="line">                         <span class="comment"># 记录数为0说明是第一条记录（原来的答案里有这一条，测试后发现加上去答案和预期不符）</span></span><br><span class="line">                         <span class="comment"># when count(*) = 0 then 0</span></span><br><span class="line">                         <span class="comment"># 最近一次工资变化比当前工资低判定为涨工资</span></span><br><span class="line">                         <span class="keyword">when</span> s0.salary &lt; s.salary <span class="keyword">then</span> <span class="number">1</span></span><br><span class="line">                         <span class="comment"># 其他情况判定为不是涨工资</span></span><br><span class="line">                         <span class="keyword">else</span> <span class="number">0</span> <span class="keyword">end</span></span><br><span class="line">                     <span class="comment"># 查询最近一次工资变化情况</span></span><br><span class="line">                     <span class="keyword">from</span> salaries s0 <span class="keyword">where</span> s0.emp_no = s.emp_no <span class="keyword">and</span> s0.to_date &lt; s.to_date <span class="keyword">order</span> <span class="keyword">by</span> s0.to_date <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">1</span>))</span><br><span class="line">             <span class="comment"># 查询出每个成员的每次工资变化情况</span></span><br><span class="line">             <span class="keyword">from</span> salaries s <span class="keyword">where</span> s.emp_no = de.emp_no))</span><br><span class="line">     <span class="comment"># 查询出部门中的每个成员</span></span><br><span class="line">     <span class="keyword">from</span> dept_emp de <span class="keyword">where</span> de.dept_no = d.dept_no) <span class="keyword">as</span> <span class="keyword">sum</span></span><br><span class="line"><span class="keyword">from</span> departments d;</span><br></pre></td></tr></table></figure>
+
+<h4 id="22-对所有员工的薪水按照salary进行按照1-N的排名"><a href="#22-对所有员工的薪水按照salary进行按照1-N的排名" class="headerlink" title="22.对所有员工的薪水按照salary进行按照1-N的排名"></a>22.对所有员工的薪水按照salary进行按照1-N的排名</h4><p>对所有员工的当前(to_date=’9999-01-01’)薪水按照salary进行按照1-N的排名，相同salary并列且按照emp_no升序排列</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> emp_no, salary, <span class="keyword">DENSE_RANK</span>() <span class="keyword">OVER</span> (<span class="keyword">ORDER</span> <span class="keyword">BY</span> salary <span class="keyword">DESC</span>) <span class="keyword">AS</span> <span class="keyword">rank</span></span><br><span class="line"><span class="keyword">FROM</span> salaries</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">to_date</span> = <span class="string">'9999-01-01'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> salary <span class="keyword">DESC</span>, emp_no <span class="keyword">ASC</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="23-获取所有非manager员工当前的薪水情况"><a href="#23-获取所有非manager员工当前的薪水情况" class="headerlink" title="23.获取所有非manager员工当前的薪水情况"></a>23.获取所有非manager员工当前的薪水情况</h4><p>获取所有非manager员工当前的薪水情况，给出dept_no、emp_no以及salary ，当前表示to_date=’9999-01-01’</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> d1.dept_no, s.emp_no, s.salary</span><br><span class="line"><span class="keyword">FROM</span> (employees e <span class="keyword">INNER</span> <span class="keyword">JOIN</span> salaries s <span class="keyword">ON</span> e.emp_no = s.emp_no <span class="keyword">AND</span> s.to_date = <span class="string">'9999-01-01'</span>)</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> dept_emp d1 <span class="keyword">ON</span> e.emp_no = d1.emp_no</span><br><span class="line"><span class="keyword">WHERE</span> d1.emp_no <span class="keyword">NOT</span> <span class="keyword">IN</span> (<span class="keyword">SELECT</span> emp_no</span><br><span class="line">                      <span class="keyword">FROM</span> dept_manager</span><br><span class="line">                      <span class="keyword">WHERE</span> <span class="keyword">to_date</span> = <span class="string">'9999-01-01'</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="24-获取员工其当前的薪水比其manager当前薪水还高的相关信息"><a href="#24-获取员工其当前的薪水比其manager当前薪水还高的相关信息" class="headerlink" title="24.获取员工其当前的薪水比其manager当前薪水还高的相关信息"></a>24.获取员工其当前的薪水比其manager当前薪水还高的相关信息</h4><p>获取员工其当前的薪水比其manager当前薪水还高的相关信息，当前表示to_date=’9999-01-01’,结果第一列给出员工的emp_no，第二列给出其manager的manager_no，第三列给出该员工当前的薪水emp_salary,第四列给该员工对应的manager当前的薪水manager_salary</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> sem.emp_no <span class="keyword">AS</span> emp_no, sdm.emp_no <span class="keyword">AS</span> manager_no, sem.salary <span class="keyword">AS</span> emp_salary, sdm.salary <span class="keyword">AS</span> manager_salary</span><br><span class="line"><span class="keyword">FROM</span> (<span class="keyword">SELECT</span> s.salary, s.emp_no, de.dept_no </span><br><span class="line">      <span class="keyword">FROM</span> salaries s </span><br><span class="line">      <span class="keyword">INNER</span> <span class="keyword">JOIN</span> dept_emp de</span><br><span class="line">      <span class="keyword">ON</span> s.emp_no = de.emp_no <span class="keyword">AND</span> s.to_date = <span class="string">'9999-01-01'</span> ) <span class="keyword">AS</span> sem, </span><br><span class="line">     (<span class="keyword">SELECT</span> s.salary, s.emp_no, dm.dept_no </span><br><span class="line">      <span class="keyword">FROM</span> salaries s </span><br><span class="line">      <span class="keyword">INNER</span> <span class="keyword">JOIN</span> dept_manager dm</span><br><span class="line">      <span class="keyword">ON</span> s.emp_no = dm.emp_no <span class="keyword">AND</span> s.to_date = <span class="string">'9999-01-01'</span> ) <span class="keyword">AS</span> sdm</span><br><span class="line"><span class="keyword">WHERE</span> sem.dept_no = sdm.dept_no <span class="keyword">AND</span> sem.salary &gt; sdm.salary</span><br></pre></td></tr></table></figure>
+
+<h4 id="25-汇总各个部门当前员工的title类型的分配数目"><a href="#25-汇总各个部门当前员工的title类型的分配数目" class="headerlink" title="25.汇总各个部门当前员工的title类型的分配数目"></a>25.汇总各个部门当前员工的title类型的分配数目</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> de.dept_no, dp.dept_name, t.title, <span class="keyword">COUNT</span>(t.title) <span class="keyword">AS</span> <span class="keyword">count</span></span><br><span class="line"><span class="keyword">FROM</span> dept_emp de</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> titles t <span class="keyword">ON</span> de.emp_no = t.emp_no <span class="keyword">AND</span> de.to_date = <span class="string">'9999-01-01'</span> <span class="keyword">AND</span> t.to_date = <span class="string">'9999-01-01'</span></span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> departments dp <span class="keyword">on</span> de.dept_no = dp.dept_no</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> dp.dept_no, t.title</span><br></pre></td></tr></table></figure>
+
+<h4 id="26-给出每个员工每年薪水涨幅超过5000的员工编号emp-no"><a href="#26-给出每个员工每年薪水涨幅超过5000的员工编号emp-no" class="headerlink" title="26.给出每个员工每年薪水涨幅超过5000的员工编号emp_no"></a>26.给出每个员工每年薪水涨幅超过5000的员工编号emp_no</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> s2.emp_no, s2.from_date, (s2.salary - s1.salary) <span class="keyword">AS</span> salary_growth</span><br><span class="line"><span class="keyword">FROM</span> salaries <span class="keyword">AS</span> s1, salaries <span class="keyword">AS</span> s2</span><br><span class="line"><span class="keyword">WHERE</span> s1.emp_no = s2.emp_no </span><br><span class="line"><span class="keyword">AND</span> salary_growth &gt; <span class="number">5000</span></span><br><span class="line"><span class="keyword">AND</span> (strftime(<span class="string">"%Y"</span>,s2.to_date) - strftime(<span class="string">"%Y"</span>,s1.to_date) = <span class="number">1</span> </span><br><span class="line">     <span class="keyword">OR</span> strftime(<span class="string">"%Y"</span>,s2.from_date) - strftime(<span class="string">"%Y"</span>,s1.from_date) = <span class="number">1</span> )</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> salary_growth <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SQL/" rel="tag"># SQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/27/2019-08-17-精益数据分析笔记/" rel="next" title="《精益数据分析》笔记">
+                <i class="fa fa-chevron-left"></i> 《精益数据分析》笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/27/2019-08-18-数据异常分析/" rel="prev" title="数据异常分析">
+                数据异常分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">李子泠</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-查找最晚入职员工的所有信息"><span class="nav-number">1.</span> <span class="nav-text">1.查找最晚入职员工的所有信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-查找入职员工时间排名倒数第三的员工所有信息"><span class="nav-number">2.</span> <span class="nav-text">2.查找入职员工时间排名倒数第三的员工所有信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-查找当前薪水详情以及部门编号dept-no"><span class="nav-number">3.</span> <span class="nav-text">3.查找当前薪水详情以及部门编号dept_no</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-查找所有已经分配部门的员工的last-name和first-name"><span class="nav-number">4.</span> <span class="nav-text">4.查找所有已经分配部门的员工的last_name和first_name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-查找所有员工的last-name和first-name以及对应部门编号dept-no"><span class="nav-number">5.</span> <span class="nav-text">5.查找所有员工的last_name和first_name以及对应部门编号dept_no</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-查找所有员工入职时候的薪水情况"><span class="nav-number">6.</span> <span class="nav-text">6.查找所有员工入职时候的薪水情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-查找薪水涨幅超过15次的员工号emp-no以及其对应的涨幅次数t"><span class="nav-number">7.</span> <span class="nav-text">7.查找薪水涨幅超过15次的员工号emp_no以及其对应的涨幅次数t</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-获取所有部门当前manager的当前薪水情况"><span class="nav-number">8.</span> <span class="nav-text">8.获取所有部门当前manager的当前薪水情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-获取所有非manager的员工emp-no"><span class="nav-number">9.</span> <span class="nav-text">9.获取所有非manager的员工emp_no</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-获取所有员工当前的manager"><span class="nav-number">10.</span> <span class="nav-text">10.获取所有员工当前的manager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-获取所有部门中当前员工薪水最高的相关信息"><span class="nav-number">11.</span> <span class="nav-text">11.获取所有部门中当前员工薪水最高的相关信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-从titles表获取按照title进行分组"><span class="nav-number">12.</span> <span class="nav-text">12.从titles表获取按照title进行分组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-从titles表获取按照title进行分组（去重）"><span class="nav-number">13.</span> <span class="nav-text">13.从titles表获取按照title进行分组（去重）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-查找employees表"><span class="nav-number">14.</span> <span class="nav-text">14.查找employees表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-统计出当前各个title类型对应的员工当前薪水对应的平均工资"><span class="nav-number">15.</span> <span class="nav-text">15.统计出当前各个title类型对应的员工当前薪水对应的平均工资</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-获取当前薪水第二多的员工的emp-no以及其对应的薪水salary"><span class="nav-number">16.</span> <span class="nav-text">16.获取当前薪水第二多的员工的emp_no以及其对应的薪水salary</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#17-获取当前薪水第二多的员工（不用order-by排序）"><span class="nav-number">17.</span> <span class="nav-text">17.获取当前薪水第二多的员工（不用order by排序）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#18-查找所有员工的last-name和first-name以及对应的dept-name"><span class="nav-number">18.</span> <span class="nav-text">18.查找所有员工的last_name和first_name以及对应的dept_name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#19-查找员工编号emp-no为10001其自入职以来的薪水涨幅值"><span class="nav-number">19.</span> <span class="nav-text">19.查找员工编号emp_no为10001其自入职以来的薪水涨幅值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20-查找最晚入职员工的所有信息"><span class="nav-number">20.</span> <span class="nav-text">20.查找最晚入职员工的所有信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#21-统计各个部门对应员工涨幅的次数总和"><span class="nav-number">21.</span> <span class="nav-text">21.统计各个部门对应员工涨幅的次数总和</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#22-对所有员工的薪水按照salary进行按照1-N的排名"><span class="nav-number">22.</span> <span class="nav-text">22.对所有员工的薪水按照salary进行按照1-N的排名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#23-获取所有非manager员工当前的薪水情况"><span class="nav-number">23.</span> <span class="nav-text">23.获取所有非manager员工当前的薪水情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#24-获取员工其当前的薪水比其manager当前薪水还高的相关信息"><span class="nav-number">24.</span> <span class="nav-text">24.获取员工其当前的薪水比其manager当前薪水还高的相关信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#25-汇总各个部门当前员工的title类型的分配数目"><span class="nav-number">25.</span> <span class="nav-text">25.汇总各个部门当前员工的title类型的分配数目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#26-给出每个员工每年薪水涨幅超过5000的员工编号emp-no"><span class="nav-number">26.</span> <span class="nav-text">26.给出每个员工每年薪水涨幅超过5000的员工编号emp_no</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李子泠</span>
+
+  
+</div>
+
+
+  <div class="powered-by">喵</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">
+    嗷嗷嗷
+  </div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
