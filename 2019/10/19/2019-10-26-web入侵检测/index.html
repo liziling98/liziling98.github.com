@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="SQL,">
+  <meta name="keywords" content="威胁情报,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="窗口函数（OLAP函数），在Oracle和SQL Server中也被称为分析函数。窗口函数的主要目的是为了解决业务数据的实时分析。 Rank等函数被称为窗口函数的原因是：在搭配PARTITION BY 子句时，被分组后的记录集合被称为窗口，这些函数就是窗口上进行数据操作。如果使用窗口函数时不指定PARTITION BY子句，就是把整个表当作一个分区来处理。 基本语法如下： 1&amp;lt;窗口函数&amp;gt">
-<meta name="keywords" content="SQL">
+<meta name="description" content="针对这段时间做的web入侵检测小项目，做一个简单的回顾 首先数据集是Github上找到的，源地址在https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall，作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我">
+<meta name="keywords" content="威胁情报">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SQL窗口函数">
-<meta property="og:url" content="http://yoursite.com/2019/08/27/2019-08-27-窗口函数/index.html">
+<meta property="og:title" content="Web入侵检测">
+<meta property="og:url" content="http://yoursite.com/2019/10/19/2019-10-26-web入侵检测/index.html">
 <meta property="og:site_name" content="李子泠">
-<meta property="og:description" content="窗口函数（OLAP函数），在Oracle和SQL Server中也被称为分析函数。窗口函数的主要目的是为了解决业务数据的实时分析。 Rank等函数被称为窗口函数的原因是：在搭配PARTITION BY 子句时，被分组后的记录集合被称为窗口，这些函数就是窗口上进行数据操作。如果使用窗口函数时不指定PARTITION BY子句，就是把整个表当作一个分区来处理。 基本语法如下： 1&amp;lt;窗口函数&amp;gt">
+<meta property="og:description" content="针对这段时间做的web入侵检测小项目，做一个简单的回顾 首先数据集是Github上找到的，源地址在https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall，作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-27T15:41:55.795Z">
+<meta property="og:updated_time" content="2019-10-27T05:31:03.062Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SQL窗口函数">
-<meta name="twitter:description" content="窗口函数（OLAP函数），在Oracle和SQL Server中也被称为分析函数。窗口函数的主要目的是为了解决业务数据的实时分析。 Rank等函数被称为窗口函数的原因是：在搭配PARTITION BY 子句时，被分组后的记录集合被称为窗口，这些函数就是窗口上进行数据操作。如果使用窗口函数时不指定PARTITION BY子句，就是把整个表当作一个分区来处理。 基本语法如下： 1&amp;lt;窗口函数&amp;gt">
+<meta name="twitter:title" content="Web入侵检测">
+<meta name="twitter:description" content="针对这段时间做的web入侵检测小项目，做一个简单的回顾 首先数据集是Github上找到的，源地址在https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall，作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/08/27/2019-08-27-窗口函数/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/19/2019-10-26-web入侵检测/">
 
 
 
 
 
-  <title>SQL窗口函数 | 李子泠</title>
+  <title>Web入侵检测 | 李子泠</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/2019-08-27-窗口函数/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/19/2019-10-26-web入侵检测/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李子泠">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SQL窗口函数</h1>
+          <h1 class="post-title" itemprop="name headline">Web入侵检测</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T00:00:00+08:00">
-                2019-08-27 00:00:00
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-19T00:00:00+08:00">
+                2019-10-19 00:00:00
               </time>
             
 
@@ -308,8 +308,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-08-27T23:41:55+08:00">
-                2019-08-27 23:41:55
+              <time title="更新于" itemprop="dateModified" datetime="2019-10-27T13:31:03+08:00">
+                2019-10-27 13:31:03
               </time>
             
           </span>
@@ -364,27 +364,16 @@
       
 
       
-        <p>窗口函数（OLAP函数），在Oracle和SQL Server中也被称为分析函数。窗口函数的主要目的是为了解决业务数据的实时分析。</p>
-<p>Rank等函数被称为窗口函数的原因是：在搭配PARTITION BY 子句时，被分组后的记录集合被称为窗口，这些函数就是窗口上进行数据操作。如果使用窗口函数时不指定PARTITION BY子句，就是把整个表当作一个分区来处理。</p>
-<p>基本语法如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;窗口函数&gt; OVER ([PARTITION BY &lt;column list&gt;] [ORDER BY &lt;column list&gt;] [ROWS &lt;frame parameters&gt;])</span><br></pre></td></tr></table></figure>
+        <p>针对这段时间做的web入侵检测小项目，做一个简单的回顾</p>
+<p>首先数据集是Github上找到的，源地址在<a href="https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall，作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我自己摸索了一下。" target="_blank" rel="noopener">https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall，作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我自己摸索了一下。</a></p>
+<h4 id="数据探索"><a href="#数据探索" class="headerlink" title="数据探索"></a>数据探索</h4><p>首先，对数据集进行分类标记，分为正负样本，正类是正常请求，负类是恶意请求。</p>
+<p>然后对比请求长度，恶意请求的长度和正常请求的长度有比较大的差异，恶意请求的长度变化地更频繁一点，峰比较多，同时长度更长，但单凭长度没有办法直接区分这两者，只能帮助我们大概了解数据集。所以还是要在文本上做功夫，可是难点在于query严格来讲也并不能称作有语义的文本，不能按照常规的分词-去停等操作进行处理。长度图如下：</p>
+<p>我尝试了文本序列HMM计算，将请求文本的元素分为三类：字母（a）、数字（n）和符号（l），比如/start-008/可能转化成laaaaalnnnl，对于每个状态，统计之后一个状态的概率分布，构建起状态转移模型，最后计算每一个请求可能出现的概率，然而正负样本中的概率分布并没有太大的差异，无法选择合适的阈值，于是这种方法只能放弃。</p>
+<p>所以最后问题来到了如何构建特征，大概观察了一些请求之后，统计了其中符号的出现频次，选择了一些常见的分隔符作为分词符，分词后对词频进行了统计，对于出现次数小于N次的，视作无语义的文本，直接提取成二/三元词袋，相当于每条请求变成了（出现频次高的元素 + 出现频次低的元素中提取的词袋）的组合，为了观察正负样本中现有词有什么区别，使用词云直接绘图，如下图。可以发现进行了特殊处理后，正负样本中的词有着明显的差异，这时可以将它们转化成TFIDF矩阵，然后完成特征工程。</p>
+<p>还有一种比较暴力的方法是直接将所有请求转化成三元词袋，但效果好不好暂时未知，接下来我会用模型进行对比，看哪一种特征工程比较有优势</p>
+<h4 id="模型构建"><a href="#模型构建" class="headerlink" title="模型构建"></a>模型构建</h4><p>模型我选择的是SVM，统一模型然后对比两种特征工程的F1值，最后经过特殊处理的结果是0.83，未经过特殊处理的结果是0.75，这就说明特殊特征工程是有效的</p>
+<h4 id="future-work"><a href="#future-work" class="headerlink" title="future work"></a>future work</h4><p>词向量训练，因为电脑硬件没有跟上，只是大概做了个模型但是没能跑起来</p>
 
-<h3 id="rank-function"><a href="#rank-function" class="headerlink" title="rank function"></a>rank function</h3><p>主要有4种</p>
-<ol>
-<li>RANK() OVER()</li>
-<li>ROW_NUMBER() OVER()</li>
-<li>DENSE_RANK() OVER()</li>
-<li>NTILE(N) OVER()</li>
-</ol>
-<p>RANK()和ROW_NUMNER()的区别主要在于：ROW_NUMBER()实现了相同条件的两条或者多条记录是用唯一值来区别的；</p>
-<p>RANK()和DENSE_RANK()的区别是，对于相同排名后的名次，是接着相同排名的连续数(DENSE_RANK)还是相隔N个相同连续数(RANK)，也就是说DENSE_RANK不会有跳格，而RANK跳格。比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">同样的数据</span><br><span class="line">经过DENSE_RANK()处理后：</span><br><span class="line">1   80</span><br><span class="line">1   80</span><br><span class="line">2   76</span><br><span class="line">3   70</span><br><span class="line">经过RANK()处理后：</span><br><span class="line">1   80</span><br><span class="line">1   80</span><br><span class="line">3   76</span><br><span class="line">4   70</span><br><span class="line">经过ROW_NUMBER()处理后：</span><br><span class="line">1   80</span><br><span class="line">2   80</span><br><span class="line">3   76</span><br><span class="line">4   70</span><br></pre></td></tr></table></figure>
-
-<h3 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h3><p>可使用的聚合函数包括sum, avg, count, max 和 min,比如</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DAY</span>,</span><br><span class="line">	   <span class="keyword">hour</span>，</span><br><span class="line">       SCORE,</span><br><span class="line">       <span class="keyword">max</span>(SCORE) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">BY</span> <span class="keyword">DAY</span>),</span><br><span class="line">       <span class="keyword">avg</span>(SCORE) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">BY</span> <span class="keyword">DAY</span>),</span><br><span class="line">       <span class="keyword">min</span>(SCORE) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">BY</span> <span class="keyword">DAY</span>)</span><br><span class="line"><span class="keyword">FROM</span> score_daily</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">day</span>, <span class="keyword">hour</span> <span class="keyword">asc</span>;</span><br></pre></td></tr></table></figure>
-
-<p>对于每一行，在它的分区中的行集被称为它的窗口帧。 一些窗口函数只作用在窗口帧中的行上，而不是整个分区。默认情况下，如果使用ORDER BY，则帧包括从分区开始到当前行的所有行，以及后续任何与当前行在ORDER BY子句上相等的行。如果ORDER BY被忽略，则默认帧包含整个分区中所有的行。比如：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> salary, <span class="keyword">sum</span>(salary) <span class="keyword">OVER</span> () <span class="keyword">FROM</span> empsalary;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -401,7 +390,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/SQL/" rel="tag"># SQL</a>
+            <a href="/tags/威胁情报/" rel="tag"># 威胁情报</a>
           
         </div>
       
@@ -414,8 +403,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/26/2019-08-26-sql优化/" rel="next" title="SQL优化语句">
-                <i class="fa fa-chevron-left"></i> SQL优化语句
+              <a href="/2019/10/19/2019-10-19-威胁情报分析行业探索/" rel="next" title="威胁情报分析行业探索">
+                <i class="fa fa-chevron-left"></i> 威胁情报分析行业探索
               </a>
             
           </div>
@@ -423,10 +412,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/27/2019-08-27-特征工程/" rel="prev" title="特征工程">
-                特征工程 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -558,7 +543,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#rank-function"><span class="nav-number">1.</span> <span class="nav-text">rank function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚合函数"><span class="nav-number">2.</span> <span class="nav-text">聚合函数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据探索"><span class="nav-number">1.</span> <span class="nav-text">数据探索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模型构建"><span class="nav-number">2.</span> <span class="nav-text">模型构建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#future-work"><span class="nav-number">3.</span> <span class="nav-text">future work</span></a></li></ol></div>
             
 
           </div>
