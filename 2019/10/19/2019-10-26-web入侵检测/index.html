@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="针对这段时间做的web入侵检测小项目，做一个简单的回顾 首先数据集是Github上找到的，源地址在https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall，作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我">
+<meta name="description" content="针对这段时间做的web入侵检测小项目，做一个简单的回顾 首先数据集是Github上找到的，源地址在https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall 作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我">
 <meta name="keywords" content="威胁情报">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Web入侵检测">
 <meta property="og:url" content="http://yoursite.com/2019/10/19/2019-10-26-web入侵检测/index.html">
 <meta property="og:site_name" content="李子泠">
-<meta property="og:description" content="针对这段时间做的web入侵检测小项目，做一个简单的回顾 首先数据集是Github上找到的，源地址在https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall，作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我">
+<meta property="og:description" content="针对这段时间做的web入侵检测小项目，做一个简单的回顾 首先数据集是Github上找到的，源地址在https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall 作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-27T05:31:03.062Z">
+<meta property="og:updated_time" content="2019-10-28T14:09:35.445Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Web入侵检测">
-<meta name="twitter:description" content="针对这段时间做的web入侵检测小项目，做一个简单的回顾 首先数据集是Github上找到的，源地址在https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall，作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我">
+<meta name="twitter:description" content="针对这段时间做的web入侵检测小项目，做一个简单的回顾 首先数据集是Github上找到的，源地址在https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall 作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我">
 
 
 
@@ -308,8 +308,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-10-27T13:31:03+08:00">
-                2019-10-27 13:31:03
+              <time title="更新于" itemprop="dateModified" datetime="2019-10-28T22:09:35+08:00">
+                2019-10-28 22:09:35
               </time>
             
           </span>
@@ -365,12 +365,13 @@
 
       
         <p>针对这段时间做的web入侵检测小项目，做一个简单的回顾</p>
-<p>首先数据集是Github上找到的，源地址在<a href="https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall，作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我自己摸索了一下。" target="_blank" rel="noopener">https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall，作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我自己摸索了一下。</a></p>
+<p>首先数据集是Github上找到的，源地址在<a href="https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall" target="_blank" rel="noopener">https://github.com/faizann24/Fwaf-Machine-Learning-driven-Web-Application-Firewall</a></p>
+<p>作者上传有120多万条正常请求和5万多条恶意请求，他的做法在我看来有点涉嫌作弊，直接拿全部数据集做了特征工程再区分的训练和测试集，所以我自己摸索了一下。</p>
 <h4 id="数据探索"><a href="#数据探索" class="headerlink" title="数据探索"></a>数据探索</h4><p>首先，对数据集进行分类标记，分为正负样本，正类是正常请求，负类是恶意请求。</p>
 <p>然后对比请求长度，恶意请求的长度和正常请求的长度有比较大的差异，恶意请求的长度变化地更频繁一点，峰比较多，同时长度更长，但单凭长度没有办法直接区分这两者，只能帮助我们大概了解数据集。所以还是要在文本上做功夫，可是难点在于query严格来讲也并不能称作有语义的文本，不能按照常规的分词-去停等操作进行处理。长度图如下：</p>
 <p>我尝试了文本序列HMM计算，将请求文本的元素分为三类：字母（a）、数字（n）和符号（l），比如/start-008/可能转化成laaaaalnnnl，对于每个状态，统计之后一个状态的概率分布，构建起状态转移模型，最后计算每一个请求可能出现的概率，然而正负样本中的概率分布并没有太大的差异，无法选择合适的阈值，于是这种方法只能放弃。</p>
 <p>所以最后问题来到了如何构建特征，大概观察了一些请求之后，统计了其中符号的出现频次，选择了一些常见的分隔符作为分词符，分词后对词频进行了统计，对于出现次数小于N次的，视作无语义的文本，直接提取成二/三元词袋，相当于每条请求变成了（出现频次高的元素 + 出现频次低的元素中提取的词袋）的组合，为了观察正负样本中现有词有什么区别，使用词云直接绘图，如下图。可以发现进行了特殊处理后，正负样本中的词有着明显的差异，这时可以将它们转化成TFIDF矩阵，然后完成特征工程。</p>
-<p>还有一种比较暴力的方法是直接将所有请求转化成三元词袋，但效果好不好暂时未知，接下来我会用模型进行对比，看哪一种特征工程比较有优势</p>
+<p>还有一种比较暴力的方法是直接将所有请求转化成三元词袋，但效果好不好暂时未知，接下来会用模型进行对比，看哪一种特征工程比较有优势</p>
 <h4 id="模型构建"><a href="#模型构建" class="headerlink" title="模型构建"></a>模型构建</h4><p>模型我选择的是SVM，统一模型然后对比两种特征工程的F1值，最后经过特殊处理的结果是0.83，未经过特殊处理的结果是0.75，这就说明特殊特征工程是有效的</p>
 <h4 id="future-work"><a href="#future-work" class="headerlink" title="future work"></a>future work</h4><p>词向量训练，因为电脑硬件没有跟上，只是大概做了个模型但是没能跑起来</p>
 
@@ -403,8 +404,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/19/2019-10-19-威胁情报分析行业探索/" rel="next" title="威胁情报分析行业探索">
-                <i class="fa fa-chevron-left"></i> 威胁情报分析行业探索
+              <a href="/2019/09/02/2019-09-02-反作弊异常检测/" rel="next" title="反作弊异常检测">
+                <i class="fa fa-chevron-left"></i> 反作弊异常检测
               </a>
             
           </div>
@@ -412,6 +413,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/19/2019-10-19-威胁情报分析行业探索/" rel="prev" title="威胁情报分析行业探索">
+                威胁情报分析行业探索 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -488,7 +493,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -499,7 +504,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -510,7 +515,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
