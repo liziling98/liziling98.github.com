@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="数据分析,">
+  <meta name="keywords" content="工作笔记,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="content{:toc}  一个简单的思路如下 确认数据真实性经常会遇到数据服务、数据上报、数据统计上的BUG，在数据报表上就会出现异常值。所以，首先找数据流相关的产品和研发确认下数据的真实性。 确认异常范围常见拆分维度包括：  用户：新/老用户 登陆平台：IOS/安卓 版本：新/旧版本 登陆渠道：app/小程序/pc端 区域：省份、国家等等 时间：淡旺季、日夜、产品周期等等  比较变化量，比">
-<meta name="keywords" content="数据分析">
+<meta name="description" content="scrapy笔记主要组件 Scrapy Engine  负责控制系统中各个部分的数据流，当有actions出现时，触发相应events  Scheduler  接受来自Engine的requests，并且enqueue他们，并在Engine需要requests的时候feeding它们  Downloader  负责获取web页面信息，然后feeding这些信息到Engine(Engine会按顺序f">
+<meta name="keywords" content="工作笔记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据异常分析">
-<meta property="og:url" content="http://yoursite.com/2019/08/18/2019-08-18-数据异常分析/index.html">
+<meta property="og:title" content="scrapy框架">
+<meta property="og:url" content="http://yoursite.com/2019/12/13/2019-12-13-scrapy框架/index.html">
 <meta property="og:site_name" content="李子泠">
-<meta property="og:description" content="content{:toc}  一个简单的思路如下 确认数据真实性经常会遇到数据服务、数据上报、数据统计上的BUG，在数据报表上就会出现异常值。所以，首先找数据流相关的产品和研发确认下数据的真实性。 确认异常范围常见拆分维度包括：  用户：新/老用户 登陆平台：IOS/安卓 版本：新/旧版本 登陆渠道：app/小程序/pc端 区域：省份、国家等等 时间：淡旺季、日夜、产品周期等等  比较变化量，比">
+<meta property="og:description" content="scrapy笔记主要组件 Scrapy Engine  负责控制系统中各个部分的数据流，当有actions出现时，触发相应events  Scheduler  接受来自Engine的requests，并且enqueue他们，并在Engine需要requests的时候feeding它们  Downloader  负责获取web页面信息，然后feeding这些信息到Engine(Engine会按顺序f">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-26T14:24:50.004Z">
+<meta property="og:updated_time" content="2019-12-13T12:55:15.311Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据异常分析">
-<meta name="twitter:description" content="content{:toc}  一个简单的思路如下 确认数据真实性经常会遇到数据服务、数据上报、数据统计上的BUG，在数据报表上就会出现异常值。所以，首先找数据流相关的产品和研发确认下数据的真实性。 确认异常范围常见拆分维度包括：  用户：新/老用户 登陆平台：IOS/安卓 版本：新/旧版本 登陆渠道：app/小程序/pc端 区域：省份、国家等等 时间：淡旺季、日夜、产品周期等等  比较变化量，比">
+<meta name="twitter:title" content="scrapy框架">
+<meta name="twitter:description" content="scrapy笔记主要组件 Scrapy Engine  负责控制系统中各个部分的数据流，当有actions出现时，触发相应events  Scheduler  接受来自Engine的requests，并且enqueue他们，并在Engine需要requests的时候feeding它们  Downloader  负责获取web页面信息，然后feeding这些信息到Engine(Engine会按顺序f">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/08/18/2019-08-18-数据异常分析/">
+  <link rel="canonical" href="http://yoursite.com/2019/12/13/2019-12-13-scrapy框架/">
 
 
 
 
 
-  <title>数据异常分析 | 李子泠</title>
+  <title>scrapy框架 | 李子泠</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/18/2019-08-18-数据异常分析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/13/2019-12-13-scrapy框架/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李子泠">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数据异常分析</h1>
+          <h1 class="post-title" itemprop="name headline">scrapy框架</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-18T00:00:00+08:00">
-                2019-08-18 00:00:00
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-13T00:00:00+08:00">
+                2019-12-13 00:00:00
               </time>
             
 
@@ -308,8 +308,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-09-26T22:24:50+08:00">
-                2019-09-26 22:24:50
+              <time title="更新于" itemprop="dateModified" datetime="2019-12-13T20:55:15+08:00">
+                2019-12-13 20:55:15
               </time>
             
           </span>
@@ -327,8 +327,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据/" itemprop="url" rel="index">
-                    <span itemprop="name">数据</span>
+                  <a href="/categories/工作/" itemprop="url" rel="index">
+                    <span itemprop="name">工作</span>
                   </a>
                 </span>
 
@@ -364,37 +364,76 @@
       
 
       
-        <ul>
-<li>content<br>{:toc}</li>
-</ul>
-<p>一个简单的思路如下</p>
-<h3 id="确认数据真实性"><a href="#确认数据真实性" class="headerlink" title="确认数据真实性"></a>确认数据真实性</h3><p>经常会遇到数据服务、数据上报、数据统计上的BUG，在数据报表上就会出现异常值。所以，首先找数据流相关的产品和研发确认下数据的真实性。</p>
-<h3 id="确认异常范围"><a href="#确认异常范围" class="headerlink" title="确认异常范围"></a>确认异常范围</h3><p>常见拆分维度包括：</p>
-<ol>
-<li>用户：新/老用户</li>
-<li>登陆平台：IOS/安卓</li>
-<li>版本：新/旧版本</li>
-<li>登陆渠道：app/小程序/pc端</li>
-<li>区域：省份、国家等等</li>
-<li>时间：淡旺季、日夜、产品周期等等</li>
+        <h3 id="scrapy笔记"><a href="#scrapy笔记" class="headerlink" title="scrapy笔记"></a>scrapy笔记</h3><h4 id="主要组件"><a href="#主要组件" class="headerlink" title="主要组件"></a>主要组件</h4><ol>
+<li>Scrapy Engine</li>
 </ol>
-<p>比较变化量，比如（今日量-昨日量）/（今日总量-昨日总量）</p>
-<h3 id="作出假设"><a href="#作出假设" class="headerlink" title="作出假设"></a>作出假设</h3><p>了解数据异常时间点附近做了什么产品、运营、技术上的调整或者改进</p>
-<p>假设维度包括：</p>
-<ol>
-<li>产品：功能调整、策略调整</li>
-<li>技术：接口不稳定、系统故障、网页加载速度</li>
-<li>运营：运营策略、拉新渠道、投放推广、活动</li>
+<p>负责控制系统中各个部分的数据流，当有actions出现时，触发相应events</p>
+<ol start="2">
+<li>Scheduler</li>
 </ol>
-<p>给这些假设排列验证优先级，逐一排查</p>
-<h3 id="确认原因"><a href="#确认原因" class="headerlink" title="确认原因"></a>确认原因</h3><p>一个假设得到验证后，可以在当前维度上进行更细维度的数据才分</p>
-<h3 id="数据异常报告"><a href="#数据异常报告" class="headerlink" title="数据异常报告"></a>数据异常报告</h3><p>一份完整的数据异常分析报告应该包括以下部分：</p>
-<ol>
-<li>问题描述：什么时间，什么指标，是上涨\下降，幅度是多少，对比的是什么；</li>
-<li>主要结论：将影响因素按照影响度从大到小讲清楚，并列清楚各自的影响度；</li>
-<li>后续跟进：异常因素发生的原因是什么，后续的解决方案是什么，解决时间；</li>
-<li>具体分析过程：具体的分析过程及详细数据。</li>
+<p>接受来自Engine的requests，并且enqueue他们，并在Engine需要requests的时候feeding它们</p>
+<ol start="3">
+<li>Downloader</li>
 </ol>
+<p>负责获取web页面信息，然后feeding这些信息到Engine(Engine会按顺序feedpages到spiders)</p>
+<ol start="4">
+<li>Spiders</li>
+</ol>
+<p>这部分主要有scrapy user来编码，包括parse responses, 从responses中extract items(scraped items)</p>
+<ol start="5">
+<li>Item Pipeline</li>
+</ol>
+<p>负责处理被Spiders提取出来的items。举个例子，它典型的任务包括cleansing, validation和persistence(比如将item存储在database里)</p>
+<ol start="6">
+<li>Downloader middlewares</li>
+</ol>
+<p>它处于Engine和Downloader中间，用来处理从Engine到Downloader中的requests，以及从Downloader到Engine中的response</p>
+<p>它的适用场景包括：</p>
+<pre><code>6.1 在request被送到Downloader之前，处理它（在scrapy发送请求到网站前）
+6.2 在Spider收到response前，修改接收到的response
+6.3 发送新的request到Spider，而不是接收到的response
+6.4 不fetch一个web页面，直接传递response到Spider
+6.5 悄咪咪丢掉一些requests</code></pre><ol start="7">
+<li>Spider middlewares</li>
+</ol>
+<p>它处于Engine和Spider中间，能够处理Spider的input(responses)和output(items和requests)</p>
+<p>它的适用场景包括</p>
+<pre><code>7.1 Spider callbacks的输出的后处理(修改/增加/删除一些request或者items)
+7.2 start_requests的后处理
+7.3 处理spider exceptions
+7.4 对某些基于响应内容的请求调用errback而不是callback</code></pre><ol start="8">
+<li>Event-driven networking</li>
+</ol>
+<p>Scrapy是用Twisted编写的，Twisted是一个流行的Python事件驱动的网络框架。因此，它使用非阻塞（也称为异步）代码来实现并发性</p>
+<h4 id="数据流"><a href="#数据流" class="headerlink" title="数据流"></a>数据流</h4><p>数据流被Engine掌控着，流程如下：</p>
+<ol>
+<li>Engine获取初始的requests去爬取信息</li>
+</ol>
+<ol start="2">
+<li>Engine规划scheduler中的requests，调取接下来的requests</li>
+</ol>
+<ol start="3">
+<li>scheduler返回接下来的requests到Engine</li>
+</ol>
+<ol start="4">
+<li>Engine通过Downloader middlewares发送请求到Downloader（查看process_request()）</li>
+</ol>
+<ol start="5">
+<li>一旦页面完成下载，Downloader生成一个response，和该页面一起，通过Downloader middlewares传递到Engine（查看process_response()）</li>
+</ol>
+<ol start="6">
+<li>Engine接受来自Downloader的response，然后通过spider middleware传递它到spider进行处理（查看process_spider_input()）</li>
+</ol>
+<ol start="7">
+<li>spider处理这个response然后返回爬下来的items，并且new新的requests通过spider middleware发往Engine（查看process_spider_output()）</li>
+</ol>
+<ol start="8">
+<li>Engine发送处理过的items到item pipelines，然后发送已经处理过的requests到scheduler，并且询问是否存在下一波requests</li>
+</ol>
+<ol start="9">
+<li>从步骤1开始repeat，直到sceduler中的requests处理完</li>
+</ol>
+<p>参考链接：<a href="https://docs.scrapy.org/en/latest/index.html" target="_blank" rel="noopener">https://docs.scrapy.org/en/latest/index.html</a></p>
 
       
     </div>
@@ -412,7 +451,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/数据分析/" rel="tag"># 数据分析</a>
+            <a href="/tags/工作笔记/" rel="tag"># 工作笔记</a>
           
         </div>
       
@@ -425,8 +464,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/18/2019-08-18-sql练习/" rel="next" title="SQL学习笔记（二）">
-                <i class="fa fa-chevron-left"></i> SQL学习笔记（二）
+              <a href="/2019/12/07/2019-12-07-工作笔记（一）/" rel="next" title="工作踩坑">
+                <i class="fa fa-chevron-left"></i> 工作踩坑
               </a>
             
           </div>
@@ -435,8 +474,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/19/2019-08-19-project/" rel="prev" title="面试准备">
-                面试准备 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/12/13/2019-12-13-服务器连代理笔记/" rel="prev" title="服务器连代理笔记">
+                服务器连代理笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -569,7 +608,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#确认数据真实性"><span class="nav-number">1.</span> <span class="nav-text">确认数据真实性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#确认异常范围"><span class="nav-number">2.</span> <span class="nav-text">确认异常范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作出假设"><span class="nav-number">3.</span> <span class="nav-text">作出假设</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#确认原因"><span class="nav-number">4.</span> <span class="nav-text">确认原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据异常报告"><span class="nav-number">5.</span> <span class="nav-text">数据异常报告</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#scrapy笔记"><span class="nav-number">1.</span> <span class="nav-text">scrapy笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主要组件"><span class="nav-number">1.1.</span> <span class="nav-text">主要组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据流"><span class="nav-number">1.2.</span> <span class="nav-text">数据流</span></a></li></ol></li></ol></div>
             
 
           </div>
