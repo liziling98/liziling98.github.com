@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="恶意样本,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="关于论文A survey of malware behavior description and analysis，在这里留一点笔记，一些地方没有看懂，会持续更新。主要目的是以这篇survey为圆心，向外把知识点扩展开 1. introduction恶意软件生成工具和恶意模块的重复使用，让近些年的恶意样本变得highly modular and less fuctionally typical 恶">
+<meta name="keywords" content="恶意样本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="恶意样本行为描述和分析">
+<meta property="og:url" content="http://yoursite.com/2019/12/27/2019-12-27-恶意样本行为描述和分析/index.html">
+<meta property="og:site_name" content="李子泠">
+<meta property="og:description" content="关于论文A survey of malware behavior description and analysis，在这里留一点笔记，一些地方没有看懂，会持续更新。主要目的是以这篇survey为圆心，向外把知识点扩展开 1. introduction恶意软件生成工具和恶意模块的重复使用，让近些年的恶意样本变得highly modular and less fuctionally typical 恶">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-27T12:06:24.876Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="恶意样本行为描述和分析">
+<meta name="twitter:description" content="关于论文A survey of malware behavior description and analysis，在这里留一点笔记，一些地方没有看懂，会持续更新。主要目的是以这篇survey为圆心，向外把知识点扩展开 1. introduction恶意软件生成工具和恶意模块的重复使用，让近些年的恶意样本变得highly modular and less fuctionally typical 恶">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/27/2019-12-27-恶意样本行为描述和分析/">
+
+
+
+
+
+  <title>恶意样本行为描述和分析 | 李子泠</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">李子泠</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/27/2019-12-27-恶意样本行为描述和分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李子泠">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="李子泠">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">恶意样本行为描述和分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-27T00:00:00+08:00">
+                2019-12-27 00:00:00
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-12-27T20:06:24+08:00">
+                2019-12-27 20:06:24
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络安全/" itemprop="url" rel="index">
+                    <span itemprop="name">网络安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>关于论文A survey of malware behavior description and analysis，在这里留一点笔记，一些地方没有看懂，会持续更新。主要目的是以这篇survey为圆心，向外把知识点扩展开</p>
+<h3 id="1-introduction"><a href="#1-introduction" class="headerlink" title="1. introduction"></a>1. introduction</h3><p>恶意软件生成工具和恶意模块的重复使用，让近些年的恶意样本变得highly modular and less fuctionally typical</p>
+<p>恶意样本分析技术主要分成静态和动态。静态方法分析恶意样本的二进制文件和disassembly codes，但不执行样本；动态方法通过在虚拟环境中执行样本，提取到行为数据，然后通过这些log下来的行为数据，分析恶意样本行为。大部分动态分析技术依赖于system call traces去分析恶意行为</p>
+<p>恶意样本行为分析主要用来回答3个问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">怎样用一种通用的方式去描述恶意样本行为数据</span><br><span class="line">怎样通过leveraging行为数据来检测并对恶意样本进行分类</span><br><span class="line">恶意样本会产生什么样的恶意行为</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-malware-behavior-analysis-techniques"><a href="#2-malware-behavior-analysis-techniques" class="headerlink" title="2. malware behavior analysis techniques"></a>2. malware behavior analysis techniques</h3><p>2.1 恶意行为描述</p>
+<p>通过静态方法提取出的行为数据主要包括function call name, file structure information, import tables, strings, control flows等等</p>
+<p>通过动态方法捕获到的行为数据包括system call names, arguments, return values, environment variables in context等，以及data flow, system call graphs, system states</p>
+<p>除了静态和动态方法外，program analysis方法也被用来分析恶意行为，它主要包括tainted analysis, value set analysis, symbolic execution techniques. 其中symbolic execution techniques可用来捕获full function call sequences，tainted analysis和一个full system emulation方法结合在一起获取完整的data flow</p>
+<p>恶意行为描述方法主要包括</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xml-based formats</span><br><span class="line">semantic description methods</span><br><span class="line">several well-defined description languages</span><br><span class="line">several concepts based on formal description</span><br><span class="line">information sharing specifications for threat intelligence</span><br></pre></td></tr></table></figure>
+
+<p>更具体的有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fuzzy markup language(FML)</span><br><span class="line">malware instruction set(MIST)</span><br><span class="line">malware attribute enumeration and characterization(MEAC)</span><br><span class="line">abstract malicious behavioral language(AMBL)</span><br><span class="line">malware analysis intermediate language(MAIL)</span><br><span class="line">behavior specificatin unit(BSU)</span><br><span class="line">behavior specification language(BSL)</span><br><span class="line">signature specificaiton language(SSL)</span><br></pre></td></tr></table></figure>
+
+<p>2.2 行为分析方法</p>
+<p>行为分析方法主要有两种，一种的machine-learning-based analysis, 一种的semantics-based behavior analysis，前者着重于特征提取和自动学习，它可以基于恶意行为来检测或者分类恶意样本；后者着重于行为数据的语义理解，并且可以determine 而已样本的capabilities(“malicious functionality”)</p>
+<p>机器学习可提取的特征包括</p>
+<p>system call features:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">inverse document frequency(IDF) of common execution events</span><br><span class="line">N-gram based on the collected system call data</span><br><span class="line">ordered system-call graphs(OSCGs) which is transformed from the traces</span><br><span class="line">shared nearest neighbor(SNN) for the distance of two samples</span><br></pre></td></tr></table></figure>
+
+<p>control flow feature</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">opcode sequences of each block according to the control flow structure</span><br><span class="line">execution tree of control flow graph</span><br></pre></td></tr></table></figure>
+
+<p>function call feature</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">the frequencies of API calls, etc</span><br></pre></td></tr></table></figure>
+
+<p>基于语义的行为识别需要基于行为数据的语义规则，有些不同的function name或者arguments有着同样意思和行为，这些语义规则的目的是消除它们间的于一差别，为了理解恶意行为，学者们提出了以下方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">map the API from the MSDN library to meaningful behaviors</span><br><span class="line">extracting genotype models from synamic program traces</span><br></pre></td></tr></table></figure>
+
+<p>典型的恶意行为包括</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spyware-like</span><br><span class="line">rootkit</span><br><span class="line">evasive</span><br><span class="line">environment-sensitive</span><br><span class="line">network scan</span><br></pre></td></tr></table></figure>
+
+<p>学术界还有使用机器学习与语义理解的混合方法</p>
+<h3 id="3-discussion-and-suggestions-for-behavior-analysis"><a href="#3-discussion-and-suggestions-for-behavior-analysis" class="headerlink" title="3. discussion and suggestions for behavior analysis"></a>3. discussion and suggestions for behavior analysis</h3><p>现有的行为分析主要有3种目的</p>
+<pre><code>a malware detection
+b malware classification
+c malware evolution</code></pre><p>其中恶意样本分类是多分类任务，恶意检测是二分类任务</p>
+<p>恶意数据分类的级别有以下几级</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">第一级 包括通过动态或者静态方法获取到的原始行为数据</span><br><span class="line">第二级 包括control flow和data flow data</span><br><span class="line">第三级 covers the behavior attributes of security-critical system resources</span><br><span class="line">最高级 abstraction behavior</span><br></pre></td></tr></table></figure>
+
+<p>主要面对的挑战</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">不同的虚拟环境能捕获到不同的dynamic traces</span><br><span class="line">恶意样本可能会抹去它的行为，或者根本不受监控</span><br><span class="line">位置的样本如何检测</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-conclusion"><a href="#4-conclusion" class="headerlink" title="4. conclusion"></a>4. conclusion</h3><p>我们需要做到理解恶意样本的mechanisms, regularity, trends in malware bahavior</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/恶意样本/" rel="tag"># 恶意样本</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/16/2019-12-16-Spyder运行scrapy爬虫时遇到的问题/" rel="next" title="Spyder运行scrapy爬虫时遇到的问题">
+                <i class="fa fa-chevron-left"></i> Spyder运行scrapy爬虫时遇到的问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">李子泠</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-introduction"><span class="nav-number">1.</span> <span class="nav-text">1. introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-malware-behavior-analysis-techniques"><span class="nav-number">2.</span> <span class="nav-text">2. malware behavior analysis techniques</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-discussion-and-suggestions-for-behavior-analysis"><span class="nav-number">3.</span> <span class="nav-text">3. discussion and suggestions for behavior analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-conclusion"><span class="nav-number">4.</span> <span class="nav-text">4. conclusion</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李子泠</span>
+
+  
+</div>
+
+
+  <div class="powered-by">喵</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">
+    嗷嗷嗷
+  </div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
