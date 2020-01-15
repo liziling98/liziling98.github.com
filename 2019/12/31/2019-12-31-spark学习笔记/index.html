@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="开一个坑，年前填完">
+<meta name="description" content="Hive安装及使用 安装mysql  123sudo apt-get install mysql-serversudo apt-get install libmysql-javaln -s /usr/share/java/mysql-connector-java.jar $HIVE_HOME/lib/mysql-connector-java.jar  mysql新建数据库及用户 123456789">
 <meta name="keywords" content="spark">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark学习笔记">
 <meta property="og:url" content="http://yoursite.com/2019/12/31/2019-12-31-spark学习笔记/index.html">
 <meta property="og:site_name" content="李子泠">
-<meta property="og:description" content="开一个坑，年前填完">
+<meta property="og:description" content="Hive安装及使用 安装mysql  123sudo apt-get install mysql-serversudo apt-get install libmysql-javaln -s /usr/share/java/mysql-connector-java.jar $HIVE_HOME/lib/mysql-connector-java.jar  mysql新建数据库及用户 123456789">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-31T12:08:00.316Z">
+<meta property="og:updated_time" content="2020-01-15T12:16:53.372Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark学习笔记">
-<meta name="twitter:description" content="开一个坑，年前填完">
+<meta name="twitter:description" content="Hive安装及使用 安装mysql  123sudo apt-get install mysql-serversudo apt-get install libmysql-javaln -s /usr/share/java/mysql-connector-java.jar $HIVE_HOME/lib/mysql-connector-java.jar  mysql新建数据库及用户 123456789">
 
 
 
@@ -308,8 +308,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-12-31T20:08:00+08:00">
-                2019-12-31 20:08:00
+              <time title="更新于" itemprop="dateModified" datetime="2020-01-15T20:16:53+08:00">
+                2020-01-15 20:16:53
               </time>
             
           </span>
@@ -364,7 +364,92 @@
       
 
       
-        <p>开一个坑，年前填完</p>
+        <h3 id="Hive安装及使用"><a href="#Hive安装及使用" class="headerlink" title="Hive安装及使用"></a>Hive安装及使用</h3><ol>
+<li>安装mysql</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install mysql-server</span><br><span class="line">sudo apt-get install libmysql-java</span><br><span class="line">ln -s /usr/share/java/mysql-connector-java.jar $HIVE_HOME/lib/mysql-connector-java.jar</span><br></pre></td></tr></table></figure>
+
+<p>mysql新建数据库及用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -u root -p</span><br><span class="line">Enter password:</span><br><span class="line">mysql&gt; CREATE DATABASE metastore;</span><br><span class="line">mysql&gt; USE metastore;</span><br><span class="line"># 这条命令我试过好像不能用，存疑？</span><br><span class="line">mysql&gt; SOURCE $HIVE_HOME/scripts/metastore/upgrade/mysql/hive-schema-0.14.0.mysql.sql;</span><br><span class="line"># 创建用户和密码用来与metastore对接</span><br><span class="line">mysql&gt; CREATE USER &apos;hiveuser&apos;@&apos;%&apos; IDENTIFIED BY &apos;hivepassword&apos;; </span><br><span class="line">mysql&gt; GRANT all on *.* to &apos;hiveuser&apos;@localhost identified by &apos;hivepassword&apos;;</span><br><span class="line">mysql&gt;  flush privileges;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>安装hive</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.tuna.tsinghua.edu.cn/apache/hive/hive-3.1.1/apache-hive-3.1.1-bin.tar.gz</span><br><span class="line">tar zxf apache-hive-3.1.2-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>修改/etc/profile，添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export HIVE_HOME=/Hive/apache-hive-3.1.2-bin</span><br><span class="line">export PATH=$HIVE_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
+
+<p>有关hive的配置都在hive-site.xml文件中，它的模板是/conf/hive-default.xml.template，比较重要的有以下几点</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hive.metastore.warehouse.dir</td>
+<td>指定hive表在hdfs上的存储路径</td>
+<td>/user/hive/warehouse</td>
+</tr>
+<tr>
+<td>javax.jdo.option.ConnectionURL</td>
+<td>配置元数据的连接URL</td>
+<td></td>
+</tr>
+<tr>
+<td>javax.jdo.option.ConnectionUserName</td>
+<td>元数据库连接用户名</td>
+<td></td>
+</tr>
+<tr>
+<td>javax.jdo.option.ConnectionPassword</td>
+<td>元数据库连接密码</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>首先cp /conf/hive-default.xml.template /conf/hive-site.xml，然后修改hive-site.xml的以下内容，或者直接新建一个hive-site.xml文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://localhost/metastore?createDatabaseIfNotExist=true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">description</span>&gt;</span>metadata is stored in a MySQL server<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">description</span>&gt;</span>MySQL JDBC driver class<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">value</span>&gt;</span>hiveuser<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">description</span>&gt;</span>user name for connecting to mysql server<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">value</span>&gt;</span>hivepassword<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">description</span>&gt;</span>password for connecting to mysql server<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>HDFS文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$HADOOP_HOME/bin/hadoop fs -mkdir /tmp</span><br><span class="line">// 这个时候遇到BUG</span><br><span class="line">$HADOOP_HOME/bin/hadoop fs -mkdir /user/hive/warehouse</span><br><span class="line">mkdir: `hdfs://Master:9000/user/hive&apos;: No such file or directory</span><br><span class="line">// 解决方案如下</span><br><span class="line">$HADOOP_HOME/bin/hadoop fs -mkdir /user</span><br><span class="line">$HADOOP_HOME/bin/hadoop fs -mkdir /user/hive</span><br><span class="line">$HADOOP_HOME/bin/hadoop fs -mkdir /user/hive/warehouse</span><br><span class="line">// 给权限</span><br><span class="line">$HADOOP_HOME/bin/hadoop fs -chmod g+w   /tmp</span><br><span class="line">$HADOOP_HOME/bin/hadoop fs -chmod g+w   /user/hive/warehouse</span><br></pre></td></tr></table></figure>
+
+<p>启动hive</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$HIVE_HOME/bin/hive</span><br></pre></td></tr></table></figure>
+
+<p>在hive中新建表或者数据库，由于在hive中，默认情况下新建的数据库以及表都位于HDFS的hive.metastore.warehouse.dir路径下，可以用以下命令查看warehouse中的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ $HADOOP_HOME/bin/hadoop fs -ls /user/hive/warehouse</span><br><span class="line"></span><br><span class="line">Found 1 items</span><br><span class="line">drwxr-xr-x   - hiveuser supergroup          0 2020-01-10 15:15 /user/hive/warehouse/test</span><br></pre></td></tr></table></figure>
+
+<p>以下内容为hive log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">2020-01-10T14:39:14,918  INFO [main] conf.HiveConf: Found configuration file file:/Hive/apache-hive-3.1.2-bin/conf/hive-site.xml</span><br><span class="line">2020-01-10T14:39:15,622  INFO [main] SessionState: Hive Session ID = 63f07449-cf85-4f46-bd70-97689de5dc12</span><br><span class="line">2020-01-10T14:39:15,726  INFO [main] SessionState: </span><br><span class="line">Logging initialized using configuration in jar:file:/Hive/apache-hive-3.1.2-bin/lib/hive-common-3.1.2.jar!/hive-log4j2.properties Async: true</span><br><span class="line">2020-01-10T14:39:17,569  INFO [main] session.SessionState: Created HDFS directory: /tmp/hive/hiveuser/63f07449-cf85-4f46-bd70-97689de5dc12</span><br><span class="line">2020-01-10T14:39:17,599  INFO [main] session.SessionState: Created local directory: /tmp/hiveuser/63f07449-cf85-4f46-bd70-97689de5dc12</span><br><span class="line">2020-01-10T14:39:17,603  INFO [main] session.SessionState: Created HDFS directory: /tmp/hive/hiveuser/63f07449-cf85-4f46-bd70-97689de5dc12/_tmp_space.db</span><br><span class="line">2020-01-10T14:39:17,627  INFO [main] conf.HiveConf: Using the default value passed in for log id: 63f07449-cf85-4f46-bd70-97689de5dc12</span><br><span class="line">2020-01-10T14:39:17,627  INFO [main] session.SessionState: Updating thread name to 63f07449-cf85-4f46-bd70-97689de5dc12 main</span><br><span class="line">2020-01-10T14:39:19,270  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] metastore.HiveMetaStore: 0: Opening raw store with implementation class:org.apache.hadoop.hive.metastore.ObjectStore</span><br><span class="line">2020-01-10T14:39:19,311  WARN [63f07449-cf85-4f46-bd70-97689de5dc12 main] metastore.ObjectStore: datanucleus.autoStartMechanismMode is set to unsupported value null . Setting it to value: ignored</span><br><span class="line">2020-01-10T14:39:19,319  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] metastore.ObjectStore: ObjectStore, initialize called</span><br><span class="line">2020-01-10T14:39:19,320  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] conf.MetastoreConf: Found configuration file file:/Hive/apache-hive-3.1.2-bin/conf/hive-site.xml</span><br><span class="line">2020-01-10T14:39:19,321  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] conf.MetastoreConf: Unable to find config file hivemetastore-site.xml</span><br><span class="line">2020-01-10T14:39:19,321  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] conf.MetastoreConf: Found configuration file null</span><br><span class="line">2020-01-10T14:39:19,321  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] conf.MetastoreConf: Unable to find config file metastore-site.xml</span><br><span class="line">2020-01-10T14:39:19,321  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] conf.MetastoreConf: Found configuration file null</span><br><span class="line">2020-01-10T14:39:19,846  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] hikari.HikariDataSource: HikariPool-1 - Starting...</span><br><span class="line">2020-01-10T14:39:20,740  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] hikari.HikariDataSource: HikariPool-1 - Start completed.</span><br><span class="line">2020-01-10T14:39:20,809  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] hikari.HikariDataSource: HikariPool-2 - Starting...</span><br><span class="line">2020-01-10T14:39:20,834  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] hikari.HikariDataSource: HikariPool-2 - Start completed.</span><br><span class="line">2020-01-10T14:39:20,934  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] metastore.ObjectStore: Setting MetaStore object pin classes with hive.metastore.cache.pinobjtypes=&quot;Table,StorageDescriptor,SerDeInfo,Partition,Database,Type,FieldSchema,Order&quot;</span><br><span class="line">2020-01-10T14:39:21,115  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] metastore.MetaStoreDirectSql: Using direct SQL, underlying DB is MYSQL</span><br><span class="line">2020-01-10T14:39:21,119  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] metastore.ObjectStore: Initialized ObjectStore</span><br><span class="line">2020-01-10T14:39:26,642  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] metastore.HiveMetaStore: Added admin role in metastore</span><br><span class="line">2020-01-10T14:39:26,647  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] metastore.HiveMetaStore: Added public role in metastore</span><br><span class="line">2020-01-10T14:39:26,680  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] metastore.HiveMetaStore: No user is added in admin role, since config is empty</span><br><span class="line">2020-01-10T14:39:26,941  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] metastore.RetryingMetaStoreClient: RetryingMetaStoreClient proxy=class org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient ugi=hiveuser (auth:SIMPLE) retries=1 delay=1 lifetime=0</span><br><span class="line">2020-01-10T14:39:26,991  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] metastore.HiveMetaStore: 0: get_all_functions</span><br><span class="line">2020-01-10T14:39:26,994  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] HiveMetaStore.audit: ugi=hiveuser	ip=unknown-ip-addr	cmd=get_all_functions	</span><br><span class="line">2020-01-10T14:39:27,041  INFO [pool-10-thread-1] SessionState: Hive Session ID = 444bed24-d77f-42cb-b898-b424d0cedf3c</span><br><span class="line">2020-01-10T14:39:27,042  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] CliDriver: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.</span><br><span class="line">2020-01-10T14:39:27,056  INFO [pool-10-thread-1] session.SessionState: Created HDFS directory: /tmp/hive/hiveuser/444bed24-d77f-42cb-b898-b424d0cedf3c</span><br><span class="line">2020-01-10T14:39:27,059  INFO [pool-10-thread-1] session.SessionState: Created local directory: /tmp/hiveuser/444bed24-d77f-42cb-b898-b424d0cedf3c</span><br><span class="line">2020-01-10T14:39:27,064  INFO [pool-10-thread-1] session.SessionState: Created HDFS directory: /tmp/hive/hiveuser/444bed24-d77f-42cb-b898-b424d0cedf3c/_tmp_space.db</span><br><span class="line">2020-01-10T14:39:27,067  INFO [pool-10-thread-1] metastore.HiveMetaStore: 1: get_databases: @hive#</span><br><span class="line">2020-01-10T14:39:27,067  INFO [pool-10-thread-1] HiveMetaStore.audit: ugi=hiveuser	ip=unknown-ip-addr	cmd=get_databases: @hive#	</span><br><span class="line">2020-01-10T14:39:27,070  INFO [pool-10-thread-1] metastore.HiveMetaStore: 1: Opening raw store with implementation class:org.apache.hadoop.hive.metastore.ObjectStore</span><br><span class="line">2020-01-10T14:39:27,071  INFO [pool-10-thread-1] metastore.ObjectStore: ObjectStore, initialize called</span><br><span class="line">2020-01-10T14:39:27,091  INFO [pool-10-thread-1] metastore.MetaStoreDirectSql: Using direct SQL, underlying DB is MYSQL</span><br><span class="line">2020-01-10T14:39:27,092  INFO [pool-10-thread-1] metastore.ObjectStore: Initialized ObjectStore</span><br><span class="line">2020-01-10T14:39:27,106  INFO [pool-10-thread-1] metastore.HiveMetaStore: 1: get_tables_by_type: db=@hive#default pat=.*,type=MATERIALIZED_VIEW</span><br><span class="line">2020-01-10T14:39:27,107  INFO [pool-10-thread-1] HiveMetaStore.audit: ugi=hiveuser	ip=unknown-ip-addr	cmd=get_tables_by_type: db=@hive#default pat=.*,type=MATERIALIZED_VIEW	</span><br><span class="line">2020-01-10T14:39:27,118  INFO [pool-10-thread-1] metastore.HiveMetaStore: 1: get_multi_table : db=default tbls=</span><br><span class="line">2020-01-10T14:39:27,118  INFO [pool-10-thread-1] HiveMetaStore.audit: ugi=hiveuser	ip=unknown-ip-addr	cmd=get_multi_table : db=default tbls=	</span><br><span class="line">2020-01-10T14:39:27,122  INFO [pool-10-thread-1] metadata.HiveMaterializedViewsRegistry: Materialized views registry has been initialized</span><br><span class="line">2020-01-10T14:39:32,153  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] conf.HiveConf: Using the default value passed in for log id: 63f07449-cf85-4f46-bd70-97689de5dc12</span><br><span class="line">2020-01-10T14:39:32,153  INFO [63f07449-cf85-4f46-bd70-97689de5dc12 main] session.SessionState: Resetting thread name to  main</span><br><span class="line">2020-01-10T14:39:32,181  INFO [main] session.SessionState: Deleted directory: /tmp/hive/hiveuser/63f07449-cf85-4f46-bd70-97689de5dc12 on fs with scheme hdfs</span><br><span class="line">2020-01-10T14:39:32,191  INFO [main] session.SessionState: Deleted directory: /tmp/hiveuser/63f07449-cf85-4f46-bd70-97689de5dc12 on fs with scheme file</span><br><span class="line">2020-01-10T14:39:32,202  INFO [main] metastore.HiveMetaStore: 0: Cleaning up thread local RawStore...</span><br><span class="line">2020-01-10T14:39:32,202  INFO [main] HiveMetaStore.audit: ugi=hiveuser	ip=unknown-ip-addr	cmd=Cleaning up thread local RawStore...	</span><br><span class="line">2020-01-10T14:39:32,203  INFO [main] metastore.HiveMetaStore: 0: Done cleaning up thread local RawStore</span><br><span class="line">2020-01-10T14:39:32,203  INFO [main] HiveMetaStore.audit: ugi=hiveuser	ip=unknown-ip-addr	cmd=Done cleaning up thread local RawStore</span><br></pre></td></tr></table></figure>
+
+<h3 id="HBase的安装和使用"><a href="#HBase的安装和使用" class="headerlink" title="HBase的安装和使用"></a>HBase的安装和使用</h3><p>wget <a href="https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/2.1.8/hbase-2.1.8-bin.tar.gz" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/2.1.8/hbase-2.1.8-bin.tar.gz</a><br>sudo tar zxf hbase-2.1.8-bin.tar.gz</p>
+<p>修改/conf/hbase-env.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Set environment variables here.</span><br><span class="line"># The java implementation to use.</span><br><span class="line">export JAVA_HOME=/usr/jdk64/jdk1.8.0_112</span><br></pre></td></tr></table></figure>
+
+<p>然后修改/conf/hbase-site.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.rootdir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:///home/testuser/hbase<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.zookeeper.property.dataDir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/testuser/zookeeper<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.unsafe.stream.capability.enforce<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span></span><br><span class="line">      Controls whether HBase will check for stream capabilities (hflush/hsync).</span><br><span class="line"></span><br><span class="line">      Disable this if you intend to run on LocalFileSystem, denoted by a rootdir</span><br><span class="line">      with the 'file://' scheme, but be mindful of the NOTE below.</span><br><span class="line"></span><br><span class="line">      WARNING: Setting this to false blinds you to potential data loss and</span><br><span class="line">      inconsistent system state in the event of process and/or node failures. If</span><br><span class="line">      HBase is complaining of an inability to use hsync or hflush it's most</span><br><span class="line">      likely not a false positive.</span><br><span class="line">    <span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>第一次使用时踩坑，输出的log文件不存在需要新建，但是需要高级用户的权限，所以加上sudo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ./start-hbase.sh</span><br><span class="line"></span><br><span class="line">running master, logging to /HBase/hbase-2.1.8/bin/../logs/hbase-root-master-hiveuser.out</span><br></pre></td></tr></table></figure>
+
+<p>然后启动hbase shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">hiveuser@hiveuser:/HBase/hbase-2.1.8$ ./bin/hbase shell</span><br><span class="line"></span><br><span class="line">SLF4J: Class path contains multiple SLF4J bindings.</span><br><span class="line">SLF4J: Found binding in [jar:file:/Hadoop/hadoop-3.2.0/share/hadoop/common/lib/slf4j-log4j12-1.7.25.jar!/org/slf4j/impl/StaticLoggerBinder.class]</span><br><span class="line">SLF4J: Found binding in [jar:file:/HBase/hbase-2.1.8/lib/client-facing-thirdparty/slf4j-log4j12-1.7.25.jar!/org/slf4j/impl/StaticLoggerBinder.class]</span><br><span class="line">SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.</span><br><span class="line">SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]</span><br><span class="line">HBase Shell</span><br><span class="line">Use &quot;help&quot; to get list of supported commands.</span><br><span class="line">Use &quot;exit&quot; to quit this interactive shell.</span><br><span class="line">For Reference, please visit: http://hbase.apache.org/2.0/book.html#shell</span><br><span class="line">Version 2.1.8, rd8333e556c8ed739cf39dab58ddc6b43a50c0965, Tue Nov 19 15:29:04 UTC 2019</span><br><span class="line">Took 0.0052 seconds</span><br><span class="line">hbase(main):001:0&gt;</span><br></pre></td></tr></table></figure>
+
+<p>看看是否连接上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hbase(main):001:0&gt; status</span><br><span class="line">1 active master, 0 backup masters, 1 servers, 0 dead, 2.0000 average load</span><br><span class="line">Took 0.9378 seconds</span><br></pre></td></tr></table></figure>
+
+<p>关于hbase基本操作，建表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hbase(main):003:0&gt; create &quot;test&quot;, &quot;columnfamily&quot;</span><br><span class="line">Created table test</span><br><span class="line">Took 0.8963 seconds</span><br><span class="line">=&gt; Hbase::Table - test</span><br></pre></td></tr></table></figure>
+
+<p>插入数据与查看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">hbase(main):008:0&gt; put &apos;test&apos;, &apos;row1&apos;, &apos;columnfamily:a&apos;, &apos;value1&apos;</span><br><span class="line">Took 0.0128 seconds</span><br><span class="line">hbase(main):009:0&gt; put &apos;test&apos;, &apos;row2&apos;, &apos;columnfamily:a&apos;, &apos;value2&apos;</span><br><span class="line">Took 0.0059 seconds</span><br><span class="line">hbase(main):010:0&gt; put &apos;test&apos;, &apos;row3&apos;, &apos;columnfamily:a&apos;, &apos;value3&apos;</span><br><span class="line">Took 0.0057 seconds</span><br><span class="line">hbase(main):011:0&gt; scan &quot;test&quot;</span><br><span class="line">ROW                                                COLUMN+CELL</span><br><span class="line"> row1                                              column=columnfamily:a, timestamp=1578647448271, value=value1</span><br><span class="line"> row2                                              column=columnfamily:a, timestamp=1578647459887, value=value2</span><br><span class="line"> row3                                              column=columnfamily:a, timestamp=1578647464620, value=value3</span><br><span class="line">3 row(s)</span><br><span class="line">Took 0.1237 seconds</span><br></pre></td></tr></table></figure>
+
+<p>参考链接：<br><a href="https://hbase.apache.org/book.html" target="_blank" rel="noopener">https://hbase.apache.org/book.html</a></p>
+<p><a href="https://dzone.com/articles/how-configure-mysql-metastore" target="_blank" rel="noopener">https://dzone.com/articles/how-configure-mysql-metastore</a></p>
+<p><a href="https://cwiki.apache.org/confluence/display/Hive/GettingStarted#GettingStarted-InstallingHivefromaStableRelease" target="_blank" rel="noopener">https://cwiki.apache.org/confluence/display/Hive/GettingStarted#GettingStarted-InstallingHivefromaStableRelease</a></p>
 
       
     </div>
@@ -459,8 +544,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -521,6 +615,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive安装及使用"><span class="nav-number">1.</span> <span class="nav-text">Hive安装及使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HBase的安装和使用"><span class="nav-number">2.</span> <span class="nav-text">HBase的安装和使用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -534,7 +644,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
